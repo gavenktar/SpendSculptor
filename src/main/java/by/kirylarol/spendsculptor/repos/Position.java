@@ -52,11 +52,36 @@ public class Position {
     }
 
     public void setName(String name) {
+        name = name.replaceAll(" [\"0-9].+","");
         this.name = name;
     }
 
     public BigDecimal price() {
         return price;
+    }
+
+    public int positionId() {
+        return positionId;
+    }
+
+    public void setPositionId(int positionId) {
+        this.positionId = positionId;
+    }
+
+    public Category category() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Receipt receipt() {
+        return receipt;
+    }
+
+    public void setReceipt(Receipt receipt) {
+        this.receipt = receipt;
     }
 
     public void setPrice(BigDecimal price) {

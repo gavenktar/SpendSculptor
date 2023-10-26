@@ -14,7 +14,6 @@ public class Receipt {
     @Id
     @Column (name = "receipt_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-
     private int receiptId;
     @Column
     private Date date;
@@ -28,4 +27,43 @@ public class Receipt {
     @OneToMany(mappedBy = "receipt" , fetch = FetchType.EAGER)
     private List<Position> positionList;
 
+    public int receiptId() {
+        return receiptId;
+    }
+
+    public void setReceiptId(int receiptId) {
+        this.receiptId = receiptId;
+    }
+
+    public Date date() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public int accountId() {
+        return accountId;
+    }
+
+    public void setAccountId(int accountId) {
+        this.accountId = accountId;
+    }
+
+    public int shopId() {
+        return shopId;
+    }
+
+    public void setShopId(int shopId) {
+        this.shopId = shopId;
+    }
+
+    public List<Position> positionList() {
+        return positionList;
+    }
+
+    public void setPositionList(List<Position> positionList) {
+        this.positionList = positionList;
+    }
 }

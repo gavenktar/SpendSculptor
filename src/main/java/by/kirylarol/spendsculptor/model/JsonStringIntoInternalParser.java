@@ -24,7 +24,7 @@ public class JsonStringIntoInternalParser {
         object = gson.fromJson(jsonString, JsonArray.class);
         return this;
     }
-    public Collection<Position> parse() throws Exception {
+    public List<Position> parse() throws Exception {
         if (object == null){
             throw new Exception("You must have a firstParseStage");
         }
@@ -84,7 +84,7 @@ public class JsonStringIntoInternalParser {
                     }
                 }
             }
-            return map.values();
+            return map.values().stream().toList();
         }
         return null;
     }
