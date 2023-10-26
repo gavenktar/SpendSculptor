@@ -4,5 +4,5 @@ import java.awt.*;
 import java.io.File;
 
 public interface ApiSender {
-    boolean send (File image);
+    void send (File image);
 }
