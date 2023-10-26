@@ -86,5 +86,6 @@ public class JsonStringIntoInternalParser {
             }
             return map.values();
         }
+        return null;
     }
 }
