@@ -33,8 +33,7 @@ public class ApiSenderNanonets implements ApiSender {
 
 
     @Override
-    public boolean send(File image) {
-
+    public void send(File image) {
         try {
             MediaType MEDIA_TYPE_JPG = MediaType.parse("image/jpeg");
             url = url.replace("{{model_id}}", modelId);
@@ -60,7 +59,8 @@ public class ApiSenderNanonets implements ApiSender {
             call.enqueue(new Callback() {
                 public void onResponse(Call call, Response response) {
                     try {
-                        System.out.println(response.body().string());
+                        JsonStringIntoInternalParser jsonStringIntoInternalParser = new JsonStringIntoInternalParser();
+                        jsonStringIntoInternalParser.firstParseStageAfterHttp(response.body().string()).parse();
                     }catch (Exception e){
                         System.out.println(e);
                     }
@@ -76,7 +76,6 @@ public class ApiSenderNanonets implements ApiSender {
         catch(Exception e){
                 System.out.println(e);
             }
-            return false;
         }
     }
 
