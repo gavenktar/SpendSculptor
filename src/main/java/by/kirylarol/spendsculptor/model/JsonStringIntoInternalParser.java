@@ -1,13 +1,15 @@
 package by.kirylarol.spendsculptor.model;
 
-import by.kirylarol.spendsculptor.repos.Position;
+import by.kirylarol.spendsculptor.entities.Position;
+import by.kirylarol.spendsculptor.utils.Hotkeys;
 import com.google.gson.*;
-import org.springframework.security.core.parameters.P;
+import org.springframework.stereotype.Component;
 
-import javax.swing.text.Element;
 import java.math.BigDecimal;
 import java.util.*;
 
+
+@Component
 public class JsonStringIntoInternalParser {
 
     JsonArray object = null;
@@ -15,7 +17,7 @@ public class JsonStringIntoInternalParser {
     public JsonStringIntoInternalParser firstParseStageAfterHttp(String jsonString){
         Gson gson = new Gson();
         JsonObject rawObject = gson.fromJson(jsonString, JsonObject.class);
-        JsonArray object = rawObject.get("result").getAsJsonArray().get(0).getAsJsonObject().get("prediction").getAsJsonArray();
+        object = rawObject.get("result").getAsJsonArray().get(0).getAsJsonObject().get("prediction").getAsJsonArray();
         return this;
     }
 
@@ -46,9 +48,17 @@ public class JsonStringIntoInternalParser {
                 }
             }
         }
+        Map<Integer, Position> map = new HashMap<>();
+
         if (totalAmountObject != null) {
             String price = totalAmountObject.get("ocr_text").getAsString();
             price = price.replace(',', '.');
+            if (!price.isEmpty()){
+                try {
+                    BigDecimal value = BigDecimal.valueOf(Double.parseDouble(price));
+                    map.put(-1, new Position(Hotkeys.TOTAL.getName(),value));
+                }catch (Exception ignore){}
+            }
         }
         if (dateObject != null) {
             String date = dateObject.get("ocr_text").getAsString();
@@ -56,7 +66,6 @@ public class JsonStringIntoInternalParser {
         if (tableObject != null) {
             JsonArray table = tableObject.get("cells").getAsJsonArray();
 
-            Map<Integer, Position> map = new HashMap<>();
             for (var elem : table) {
                 JsonObject jsonObject = elem.getAsJsonObject();
                 String label = null;

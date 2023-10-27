@@ -1,7 +1,9 @@
-package by.kirylarol.spendsculptor.repos;
+package by.kirylarol.spendsculptor.entities;
 
 import jakarta.persistence.*;
-import org.springframework.boot.autoconfigure.web.WebProperties;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.validator.cfg.context.Cascadable;
+import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
 
@@ -20,7 +22,7 @@ public class Position {
     @Column
     private BigDecimal price;
 
-    @ManyToOne(optional = true)
+    @ManyToOne(optional = true, cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "category_id")
     private Category category;
 
@@ -30,6 +32,11 @@ public class Position {
 
     public Position(String name) {
         this.name = name;
+    }
+
+    public Position(String name, BigDecimal price) {
+        this.name = name;
+        this.price = price;
     }
 
     @Override

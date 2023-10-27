@@ -1,10 +1,11 @@
-package by.kirylarol.spendsculptor.repos;
+package by.kirylarol.spendsculptor.entities;
 
 
 import jakarta.persistence.*;
+import org.jetbrains.annotations.NotNull;
 
+import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -24,7 +25,13 @@ public class Receipt {
     @Column (name = "shop_id")
     private int shopId = 0;
 
-    @OneToMany(mappedBy = "receipt" , fetch = FetchType.EAGER)
+
+    @Column (name = "total_amount")
+    private BigDecimal total;
+
+
+    @NotNull
+    @OneToMany(mappedBy = "receipt" , fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     private List<Position> positionList;
 
     public int receiptId() {
@@ -53,6 +60,14 @@ public class Receipt {
 
     public int shopId() {
         return shopId;
+    }
+
+    public BigDecimal total() {
+        return total;
+    }
+
+    public void setTotal(BigDecimal total) {
+        this.total = total;
     }
 
     public void setShopId(int shopId) {

@@ -33,7 +33,7 @@ public class ApiSenderNanonets implements ApiSender {
 
 
     @Override
-    public void send(File image) {
+    public String send(File image) {
         try {
             MediaType MEDIA_TYPE_JPG = MediaType.parse("image/jpeg");
             url = url.replace("{{model_id}}", modelId);
@@ -55,27 +55,16 @@ public class ApiSenderNanonets implements ApiSender {
                     .addHeader("Authorization", Credentials.basic(key, ""))
                     .build();
 
-            Call call = client.newCall(request);
-            call.enqueue(new Callback() {
-                public void onResponse(Call call, Response response) {
-                    try {
-                        JsonStringIntoInternalParser jsonStringIntoInternalParser = new JsonStringIntoInternalParser();
-                        jsonStringIntoInternalParser.firstParseStageAfterHttp(response.body().string()).parse();
-                    }catch (Exception e){
-                        System.out.println(e);
-                    }
-                }
 
-                @Override
-                public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                    e.printStackTrace();
-                }
-            });
+            try (Response response = client.newCall(request).execute()) {
+                return response.body().string();
+            }
 
         }
         catch(Exception e){
                 System.out.println(e);
             }
+        return null;
         }
     }
 
