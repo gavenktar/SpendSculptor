@@ -26,7 +26,7 @@ public class ReceiptService {
 
     private final ApiSender apiSender;
     private final JsonStringIntoInternalParser jsonStringIntoInternalParser;
-    ReceiptRepository receiptRepository;
+    private final ReceiptRepository receiptRepository;
 
     @Autowired
     ReceiptService(ApiSender apiSender, JsonStringIntoInternalParser jsonStringIntoInternalParser, ReceiptRepository receiptRepository) {
@@ -50,9 +50,6 @@ public class ReceiptService {
         this.save(receipt);
         return receipt;
     }
-
-    ;
-
 
     @Transactional
     public void save(Receipt receipt) {
@@ -100,6 +97,5 @@ public class ReceiptService {
     public void delete (int id){
         receiptRepository.deleteById(id);
     }
-
 
 }
