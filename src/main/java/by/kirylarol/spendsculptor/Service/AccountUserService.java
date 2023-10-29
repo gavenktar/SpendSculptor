@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -30,10 +31,12 @@ public class AccountUserService {
         this.accountService = accountService;
     }
 
+    @Transactional
     public AccountUser addAccount(String name, User user){
         Account account = new Account();
         account.setName(name);
         account = accountService.addAccount(account);
+        Date date = Date.valueOf(LocalDate.now());
         AccountUser accountUser = new AccountUser();
         accountUser.setUser(user);
         accountUser.setAccount(account);
@@ -42,6 +45,11 @@ public class AccountUserService {
         return accountUserRepository.save(accountUser);
     }
 
+    public AccountUser getByUserAndAccount (Account account, User user){
+        return accountUserRepository.findAccountUserByAccountAndUser(account,user);
+    }
+
+    @Transactional
     public AccountUser addUser (Account account, User user, Double weight, Account_enum permission){
         List<AccountUser> accountUserList =  accountUserRepository.findAccountUsersByAccount(account);
         double leftWeight = 1 - weight;
@@ -57,6 +65,7 @@ public class AccountUserService {
         return accountUserRepository.save(accountUser);
     }
 
+    @Transactional
     public void removeUser (Account account, User user){
         List<AccountUser> accountUserList = accountUserRepository.findAccountUsersByAccount(account);
         AccountUser removeEntity = accountUserList.stream().filter( accountUser -> accountUser.user() == user).findFirst().orElse(null);
