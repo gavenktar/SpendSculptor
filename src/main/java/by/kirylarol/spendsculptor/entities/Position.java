@@ -22,7 +22,7 @@ public class Position {
     @Column
     private BigDecimal price;
 
-    @ManyToOne(optional = true, cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    @ManyToOne(optional = true)
     @JoinColumn(name = "category_id")
     private Category category;
 

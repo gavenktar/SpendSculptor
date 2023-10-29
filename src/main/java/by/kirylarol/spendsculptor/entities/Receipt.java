@@ -19,19 +19,18 @@ public class Receipt {
     @Column
     private Date date;
 
-    @Column (name = "account_id")
-    private int accountId = 0;
-
-    @Column (name = "shop_id")
-    private int shopId = 0;
-
+    @ManyToOne
+    @JoinColumn (name = "account_id")
+    private Account account;
+    @ManyToOne
+    @JoinColumn (name = "shop_id")
+    private Shop shop;
 
     @Column (name = "total_amount")
     private BigDecimal total;
 
 
-    @NotNull
-    @OneToMany(mappedBy = "receipt" , fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    @OneToMany(mappedBy = "receipt" , fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Position> positionList;
 
     public int receiptId() {
@@ -50,16 +49,20 @@ public class Receipt {
         this.date = date;
     }
 
-    public int accountId() {
-        return accountId;
+    public Account account() {
+        return account;
     }
 
-    public void setAccountId(int accountId) {
-        this.accountId = accountId;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
-    public int shopId() {
-        return shopId;
+    public Shop shop() {
+        return shop;
+    }
+
+    public void setShop(Shop shop) {
+        this.shop = shop;
     }
 
     public BigDecimal total() {
@@ -70,15 +73,12 @@ public class Receipt {
         this.total = total;
     }
 
-    public void setShopId(int shopId) {
-        this.shopId = shopId;
-    }
-
+    @NotNull
     public List<Position> positionList() {
         return positionList;
     }
 
-    public void setPositionList(List<Position> positionList) {
+    public void setPositionList(@NotNull List<Position> positionList) {
         this.positionList = positionList;
     }
 }

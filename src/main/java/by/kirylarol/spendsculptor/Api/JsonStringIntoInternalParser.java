@@ -1,4 +1,4 @@
-package by.kirylarol.spendsculptor.model;
+package by.kirylarol.spendsculptor.Api;
 
 import by.kirylarol.spendsculptor.entities.Position;
 import by.kirylarol.spendsculptor.utils.Hotkeys;

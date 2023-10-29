@@ -1,14 +1,14 @@
 package by.kirylarol.spendsculptor.Service;
 
 
-import by.kirylarol.spendsculptor.model.ApiSender;
-import by.kirylarol.spendsculptor.model.JsonStringIntoInternalParser;
+import by.kirylarol.spendsculptor.entities.Account;
+import by.kirylarol.spendsculptor.Api.ApiSender;
+import by.kirylarol.spendsculptor.Api.JsonStringIntoInternalParser;
 import by.kirylarol.spendsculptor.entities.Position;
 import by.kirylarol.spendsculptor.entities.Receipt;
 import by.kirylarol.spendsculptor.repos.ReceiptRepository;
 import by.kirylarol.spendsculptor.utils.Hotkeys;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +35,17 @@ public class ReceiptService {
         this.receiptRepository = receiptRepository;
     }
 
+
+    @Transactional
+    public Receipt addReceipt (File receiptImage, Account User, Date date, BigDecimal price) throws Exception {
+        Receipt receipt = new Receipt();
+        receipt.setAccount(User);
+        receipt.setDate(date);
+        receipt.setTotal(price);
+        return addReceipt(receiptImage, receipt);
+    }
+
+    @Transactional
     public Receipt addReceipt(File receiptImage, Receipt receipt) throws Exception {
         String result = apiSender.send(receiptImage);
         List<Position> positionList = new ArrayList<>(jsonStringIntoInternalParser.firstParseStageAfterHttp(result).parse());
@@ -47,26 +58,25 @@ public class ReceiptService {
             receipt.setTotal(total);
         }
         receipt.setPositionList(positionList);
-        this.save(receipt);
-        return receipt;
+
+        return  this.save(receipt);
     }
 
-    @Transactional
-    public void save(Receipt receipt) {
+    public Receipt save(Receipt receipt) {
         BigDecimal currentTotal = BigDecimal.valueOf(0);
         for (var elem : receipt.positionList()) {
             elem.setReceipt(receipt);
             currentTotal = currentTotal.add(elem.price());
         }
-        if (receipt.total().equals(BigDecimal.valueOf(0))) {
+        if (receipt.total() == null) {
             receipt.setTotal(currentTotal);
         }
-        receiptRepository.save(receipt);
+        return receiptRepository.save(receipt);
     }
 
+    @Transactional
     public Receipt addReceipt(Receipt receipt) throws Exception {
-        this.save(receipt);
-        return receipt;
+        return this.save(receipt);
     }
 
     public Receipt getReceipt(int id){
@@ -89,8 +99,7 @@ public class ReceiptService {
     @Transactional
     public Receipt update (int id, Receipt receipt) {
         receipt.setReceiptId(id);
-        receiptRepository.save(receipt);
-        return receipt;
+        return receiptRepository.save(receipt);
     }
 
     @Transactional

@@ -7,6 +7,7 @@ import by.kirylarol.spendsculptor.repos.PositionRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,8 +19,16 @@ public class PositionService {
 
     @Transactional
     Position addPosition (Position position){
-        positionRepository.save(position);
-        return position;
+        return positionRepository.save(position);
+    }
+
+    @Transactional
+    Position addPosition(Receipt receipt, String name, BigDecimal price){
+        Position position = new Position();
+        position.setName(name);
+        position.setPrice(price);
+        position.setReceipt(receipt);
+        return addPosition(position);
     }
 
     @Transactional

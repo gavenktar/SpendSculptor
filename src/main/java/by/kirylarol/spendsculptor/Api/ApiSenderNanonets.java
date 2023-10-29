@@ -1,20 +1,13 @@
-package by.kirylarol.spendsculptor.model;
+package by.kirylarol.spendsculptor.Api;
 
 
 import okhttp3.*;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.servlet.function.ServerRequest;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.concurrent.TimeUnit;
 
 @Component

@@ -16,10 +16,11 @@ public class Category {
     @Column (name = "category_id")
     private int categoryId;
 
-    @Column
+    @Column(unique = true, name = "category_name")
     private String categoryName;
 
-    @OneToMany (mappedBy = "category",fetch=FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    @OneToMany (mappedBy = "category",fetch=FetchType.EAGER)
+    @Cascade({org.hibernate.annotations.CascadeType.PERSIST, org.hibernate.annotations.CascadeType.MERGE})
     private List<Position> positions = new ArrayList<>();
 
     public int categoryId() {
