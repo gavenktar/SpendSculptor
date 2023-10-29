@@ -14,6 +14,8 @@ public class Account {
     @GeneratedValue (strategy = GenerationType.AUTO)
     @Column (name = "account_id")
     int id;
+
+
     @Column(name = "name")
     private String name;
 

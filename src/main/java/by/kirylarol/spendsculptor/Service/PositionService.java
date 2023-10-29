@@ -4,6 +4,7 @@ import by.kirylarol.spendsculptor.entities.Category;
 import by.kirylarol.spendsculptor.entities.Position;
 import by.kirylarol.spendsculptor.entities.Receipt;
 import by.kirylarol.spendsculptor.repos.PositionRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,16 +15,20 @@ import java.util.Optional;
 @Service
 @Transactional (readOnly = true)
 public class PositionService {
-    PositionRepository positionRepository;
+    private PositionRepository positionRepository;
 
+    @Autowired
+    public PositionService(PositionRepository positionRepository) {
+        this.positionRepository = positionRepository;
+    }
 
     @Transactional
-    Position addPosition (Position position){
+    public Position addPosition (Position position){
         return positionRepository.save(position);
     }
 
     @Transactional
-    Position addPosition(Receipt receipt, String name, BigDecimal price){
+    public Position addPosition(Receipt receipt, String name, BigDecimal price){
         Position position = new Position();
         position.setName(name);
         position.setPrice(price);
@@ -32,7 +37,7 @@ public class PositionService {
     }
 
     @Transactional
-    Position getById(int id){
+    public Position getById(int id){
         Optional<Position> positionOptional =  positionRepository.findById(id);
         return positionOptional.orElse(null);
     }

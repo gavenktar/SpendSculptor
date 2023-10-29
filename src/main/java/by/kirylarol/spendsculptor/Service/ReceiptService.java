@@ -29,7 +29,7 @@ public class ReceiptService {
     private final ReceiptRepository receiptRepository;
 
     @Autowired
-    ReceiptService(ApiSender apiSender, JsonStringIntoInternalParser jsonStringIntoInternalParser, ReceiptRepository receiptRepository) {
+    public ReceiptService(ApiSender apiSender, JsonStringIntoInternalParser jsonStringIntoInternalParser, ReceiptRepository receiptRepository) {
         this.apiSender = apiSender;
         this.jsonStringIntoInternalParser = jsonStringIntoInternalParser;
         this.receiptRepository = receiptRepository;
@@ -105,6 +105,11 @@ public class ReceiptService {
     @Transactional
     public void delete (int id){
         receiptRepository.deleteById(id);
+    }
+
+
+    public BigDecimal getAllSpends (Account account, Date start, Date end){
+        return receiptRepository.getTotalByAccount(account,start,end);
     }
 
 }
