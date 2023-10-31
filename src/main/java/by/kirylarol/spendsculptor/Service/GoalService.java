@@ -47,7 +47,7 @@ public class GoalService {
     @Transactional
     public List<Goal> takeActiveGoals (Account account){
         Date date1 = Date.valueOf(LocalDate.now());
-        return goalRepository.findGoalsByAccountAndValidBefore(account, date1);
+        return goalRepository.findGoalsByAccount_IdAndValidAfterAndCreatedBefore(account.id(), date1,date1);
     }
 
     @Transactional
@@ -57,11 +57,13 @@ public class GoalService {
 
     @Transactional
     public List<Goal> takeAllGoals (Account account){
-        return goalRepository.findGoalsByAccount(account);
+        return goalRepository.findGoalsByAccount_Id(account.id());
     }
 
     public  List<Goal> takeGoalValidUntilDate (Account account, Date date){
-        return goalRepository.findGoalsByAccountAndValidBefore(account, date);
+        System.out.println(date.toString());
+        System.out.println(account.id());
+        return goalRepository.findGoalsByAccount_IdAndValidAfterAndCreatedBefore(account.id(), date,date);
     }
 
 }

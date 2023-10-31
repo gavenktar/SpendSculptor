@@ -38,14 +38,35 @@ public class CategoryService {
     }
 
     @Transactional
-    public Category updateCategory(int id, Category category){
-        category.setCategoryId(id);
+    public void deleteCategory (String name){
+        Category category = categoryRepository.findDistinctFirstByCategoryName(name);
+        if (category == null) return;else deleteCategory(category);
+    }
+    @Transactional
+    public void deleteCategory (Category category){
+        categoryRepository.delete(category);
+        return;
+    }
+
+    @Transactional
+    public Category updateCategory(String newName, Category category){
+        if (this.getByName(newName) != null){
+            categoryRepository.deleteById(category.categoryId());
+            return this.getByName(newName);
+        }
+        category.setCategoryName(newName);
         return categoryRepository.save(category);
     }
 
+    @Transactional
     public Category createCategory (String name){
+
+        Category category1 = this.getByName(name);
+        if (category1 != null) return category1;
         Category category = new Category();
         category.setCategoryName(name);
         return createCategory(category);
     }
+
+
 }

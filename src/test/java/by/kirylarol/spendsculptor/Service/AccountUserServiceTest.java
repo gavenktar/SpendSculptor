@@ -1,5 +1,7 @@
 package by.kirylarol.spendsculptor.Service;
 
+import by.kirylarol.spendsculptor.Service.AccountUserService;
+import by.kirylarol.spendsculptor.Service.UserService;
 import by.kirylarol.spendsculptor.entities.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -7,12 +9,18 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.testng.Assert;
+
+import java.util.List;
 
 import static java.lang.Math.abs;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@TestPropertySource(
+        locations = "classpath:application-integrationtest.properties")
 public class AccountUserServiceTest {
     @Autowired
     AccountUserService accountUserService;
@@ -60,4 +68,18 @@ public class AccountUserServiceTest {
         assert (accountUserService.getUsersByAccount(accountUser.account()).size() == 2);
         assert (abs(accountUser.weight() - 0.2) < 0.01);
     }
+
+
+    @Test
+    @Rollback (value = true)
+    public void deleteUser(){
+        addUserTest();
+        user1 = accountUserService.getByUserAndAccount(accountUser.account(), user1).user();
+        accountUserService.removeUser(accountUser.account(), user1);
+        accountUser = accountUserService.getByUserAndAccount(accountUser.account(),user2);
+        assert ((abs(accountUser.weight()) - 1) < 0.01);
+        List<User> userList = accountUserService.getUsersByAccount(accountUser.account());
+        Assert.assertEquals(userList.size(),1);
+    }
+
 }

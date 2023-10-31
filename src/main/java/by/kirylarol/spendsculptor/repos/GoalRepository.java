@@ -10,7 +10,7 @@ import java.util.List;
 public interface GoalRepository extends JpaRepository<Goal, Integer> {
 
 
-    List<Goal> findGoalsByAccountAndValidBefore(Account account, Date date);
+    List<Goal> findGoalsByAccount_IdAndValidAfterAndCreatedBefore(int account_id, Date valid, Date created);
 
-    List<Goal> findGoalsByAccount(Account account);
+    List<Goal> findGoalsByAccount_Id(int account);
 }

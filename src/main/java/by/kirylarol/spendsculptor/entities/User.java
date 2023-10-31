@@ -84,4 +84,16 @@ public class User {
     public void setAccountUsers(List<AccountUser> accountUsers) {
         this.accountUsers = accountUsers;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof User)) {
+            return false;
+        }
+        User user = (User) obj;
+        return user.login().equals(this.login());
+    }
 }

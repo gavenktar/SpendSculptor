@@ -68,13 +68,15 @@ public class AccountUserService {
     @Transactional
     public void removeUser (Account account, User user){
         List<AccountUser> accountUserList = accountUserRepository.findAccountUsersByAccount(account);
-        AccountUser removeEntity = accountUserList.stream().filter( accountUser -> accountUser.user() == user).findFirst().orElse(null);
+        AccountUser removeEntity = accountUserList.stream().filter( accountUser -> accountUser.user().equals(user)).findFirst().orElse(null);
         if (removeEntity != null){
             double weight = 1 - removeEntity.weight();
             accountUserRepository.delete(removeEntity);
             for (var elem : accountUserList){
-                elem.setWeight(weight / elem.weight());
-                accountUserRepository.save(elem);
+                if (!elem.equals(removeEntity)) {
+                    elem.setWeight(weight / elem.weight());
+                    accountUserRepository.save(elem);
+                }
             }
         }
     }
