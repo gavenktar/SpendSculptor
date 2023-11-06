@@ -49,9 +49,9 @@ public class GoalServiceTest {
     @Test
     public void createGoalTest() {
         accountUser = accountUserService.addAccount("TEST ACCOUNT", user1);
-        Goal goal = goalService.createGoal(accountUser.account(), "TEST GOAL", Date.valueOf("2023-10-09"), Date.valueOf("2023-11-15"), BigDecimal.valueOf(4000), BigDecimal.valueOf(400));
+        Goal goal = goalService.createGoal(accountUser.getAccount(), "TEST GOAL", Date.valueOf("2023-10-09"), Date.valueOf("2023-11-15"), BigDecimal.valueOf(4000), BigDecimal.valueOf(400));
         Assert.assertNotNull(goal);
-        List<Goal> list =  goalService.takeAllGoals(accountUser.account());
+        List<Goal> list =  goalService.takeAllGoals(accountUser.getAccount());
         Assert.assertEquals(1,list.size());
     }
 
@@ -60,8 +60,8 @@ public class GoalServiceTest {
         createGoalTest();
         Date date1 = Date.valueOf("2023-10-08");
         Date date2 = Date.valueOf("2023-11-13");
-        List<Goal> list = goalService.takeGoalValidUntilDate(accountUser.account(), date1);
-        List<Goal> list1 = goalService.takeGoalValidUntilDate(accountUser.account(), date2);
+        List<Goal> list = goalService.takeGoalValidUntilDate(accountUser.getAccount(), date1);
+        List<Goal> list1 = goalService.takeGoalValidUntilDate(accountUser.getAccount(), date2);
         Assert.assertEquals(0,list.size());
         Assert.assertEquals(1,list1.size());
     }

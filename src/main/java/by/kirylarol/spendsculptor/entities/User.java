@@ -2,12 +2,11 @@ package by.kirylarol.spendsculptor.entities;
 
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.persistence.Id;
 import org.hibernate.annotations.Cascade;
-import org.springframework.data.annotation.*;
 
-import javax.management.relation.Role;
 import java.util.List;
 
 @Entity
@@ -37,7 +36,21 @@ public class User {
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<AccountUser> accountUsers;
 
-    public int id() {
+    public User(User user) {
+        this.login = user.getLogin();
+        this.password = user.getPassword();
+        this.identity = new Identity(user.getIdentity());
+    }
+
+    public User() {
+    }
+
+    public User(String login, String password) {
+        this.login = login;
+        this.password = password;
+    }
+
+    public int getId() {
         return id;
     }
 
@@ -45,7 +58,7 @@ public class User {
         this.id = id;
     }
 
-    public Identity identity() {
+    public Identity getIdentity() {
         return identity;
     }
 
@@ -53,7 +66,7 @@ public class User {
         this.identity = identity;
     }
 
-    public String login() {
+    public String getLogin() {
         return login;
     }
 
@@ -61,7 +74,8 @@ public class User {
         this.login = login;
     }
 
-    public String password() {
+    @JsonIgnore
+    public String getPassword() {
         return password;
     }
 
@@ -69,7 +83,7 @@ public class User {
         this.password = password;
     }
 
-    public RolesSystem role() {
+    public RolesSystem getRole() {
         return role;
     }
 
@@ -77,7 +91,9 @@ public class User {
         this.role = role;
     }
 
-    public List<AccountUser> accountUsers() {
+
+    @JsonIgnore
+    public List<AccountUser> getAccountUsers() {
         return accountUsers;
     }
 
@@ -94,6 +110,6 @@ public class User {
             return false;
         }
         User user = (User) obj;
-        return user.login().equals(this.login());
+        return user.getLogin().equals(this.getLogin());
     }
 }

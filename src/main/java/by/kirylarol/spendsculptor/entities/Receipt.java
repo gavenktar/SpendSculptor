@@ -1,6 +1,9 @@
 package by.kirylarol.spendsculptor.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,7 +19,7 @@ public class Receipt {
     @Column (name = "receipt_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int receiptId;
-    @Column
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date date;
 
     @ManyToOne
@@ -33,50 +36,54 @@ public class Receipt {
     @OneToMany(mappedBy = "receipt" , fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Position> positionList;
 
-    public int receiptId() {
+    public int getReceiptId() {
         return receiptId;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public Shop getShop() {
+        return shop;
+    }
+
+    public BigDecimal getTotal() {
+        return total;
+    }
+
+    public List<Position> getPositionList() {
+        return positionList;
     }
 
     public void setReceiptId(int receiptId) {
         this.receiptId = receiptId;
     }
 
-    public Date date() {
-        return date;
-    }
 
     public void setDate(Date date) {
         this.date = date;
     }
 
-    public Account account() {
-        return account;
-    }
 
     public void setAccount(Account account) {
         this.account = account;
     }
 
-    public Shop shop() {
-        return shop;
-    }
 
     public void setShop(Shop shop) {
         this.shop = shop;
     }
 
-    public BigDecimal total() {
-        return total;
-    }
 
     public void setTotal(BigDecimal total) {
         this.total = total;
     }
 
-    @NotNull
-    public List<Position> positionList() {
-        return positionList;
-    }
 
     public void setPositionList(@NotNull List<Position> positionList) {
         this.positionList = positionList;

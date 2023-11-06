@@ -1,5 +1,6 @@
 package by.kirylarol.spendsculptor.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.validator.cfg.context.Cascadable;
@@ -63,29 +64,17 @@ public class Position {
         this.name = name;
     }
 
-    public BigDecimal price() {
-        return price;
-    }
 
-    public int positionId() {
-        return positionId;
-    }
 
     public void setPositionId(int positionId) {
         this.positionId = positionId;
     }
 
-    public Category category() {
-        return category;
-    }
 
     public void setCategory(Category category) {
         this.category = category;
     }
 
-    public Receipt receipt() {
-        return receipt;
-    }
 
     public void setReceipt(Receipt receipt) {
         this.receipt = receipt;
@@ -93,5 +82,26 @@ public class Position {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public int getPositionId() {
+        return positionId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    @JsonIgnore
+    public Receipt getReceipt() {
+        return receipt;
     }
 }

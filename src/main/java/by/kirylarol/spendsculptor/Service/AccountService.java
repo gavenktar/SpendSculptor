@@ -21,6 +21,10 @@ public class AccountService {
         this.accountRepository = accountRepository;
     }
 
+
+    public Account getAccount (int id){
+        return accountRepository.findById(id).orElse(null);
+    }
     @Transactional
     public Account addAccount (Account account) {
        return accountRepository.save(account);
@@ -32,7 +36,7 @@ public class AccountService {
     }
 
     public Account getAccount (Account account){
-        return accountRepository.findById(account.id()).orElse(null);
+        return accountRepository.findById(account.getId()).orElse(null);
     }
 
 }

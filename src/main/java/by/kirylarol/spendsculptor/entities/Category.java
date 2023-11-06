@@ -1,6 +1,7 @@
 package by.kirylarol.spendsculptor.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Cascade;
 
@@ -24,6 +25,8 @@ public class Category {
     @Cascade({org.hibernate.annotations.CascadeType.PERSIST, org.hibernate.annotations.CascadeType.MERGE})
     private List<Position> positions = new ArrayList<>();
 
+
+    @JsonGetter
     public int categoryId() {
         return categoryId;
     }
@@ -31,7 +34,7 @@ public class Category {
     public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
     }
-
+    @JsonGetter
     public String categoryName() {
         return categoryName;
     }

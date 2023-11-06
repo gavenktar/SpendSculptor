@@ -1,6 +1,7 @@
 package by.kirylarol.spendsculptor.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -21,15 +22,26 @@ public class Identity {
     @OneToOne (mappedBy = "identity")
     private User user;
 
-    public int id() {
-        return id;
+    public Identity(Identity identity) {
+        this.surname = identity.getSurname();
+        this.name = identity.getName();
     }
+
+    public Identity() {
+    }
+
+    public Identity(String name, String surname) {
+        this.name = name;
+        this.surname = surname;
+    }
+
+
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public String surname() {
+    public String getSurname() {
         return surname;
     }
 
@@ -37,8 +49,17 @@ public class Identity {
         this.surname = surname;
     }
 
-    public String name() {
+    public String getName() {
         return name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    @JsonIgnore
+    public User getUser() {
+        return user;
     }
 
     public void setName(String name) {

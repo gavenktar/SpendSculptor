@@ -53,7 +53,7 @@ public class ReceiptService {
             return Objects.equals(elem.name(), Hotkeys.TOTAL.getName());
         }).findFirst();
         if (position.isPresent()) {
-            BigDecimal total = position.get().price();
+            BigDecimal total = position.get().getPrice();
             positionList.remove(position.get());
             receipt.setTotal(total);
         }
@@ -64,11 +64,11 @@ public class ReceiptService {
 
     public Receipt save(Receipt receipt) {
         BigDecimal currentTotal = BigDecimal.valueOf(0);
-        for (var elem : receipt.positionList()) {
+        for (var elem : receipt.getPositionList()) {
             elem.setReceipt(receipt);
-            currentTotal = currentTotal.add(elem.price());
+            currentTotal = currentTotal.add(elem.getPrice());
         }
-        if (receipt.total() == null) {
+        if (receipt.getTotal() == null) {
             receipt.setTotal(currentTotal);
         }
         return receiptRepository.save(receipt);

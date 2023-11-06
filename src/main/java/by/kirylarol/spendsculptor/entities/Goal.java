@@ -1,6 +1,8 @@
 package by.kirylarol.spendsculptor.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonGetter;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -39,6 +41,9 @@ public class Goal {
         this.id = id;
     }
 
+
+    @JsonGetter
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     public Date created() {
         return created;
     }
@@ -47,6 +52,8 @@ public class Goal {
         this.created = created;
     }
 
+    @JsonGetter
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     public Date valid() {
         return valid;
     }
@@ -63,6 +70,7 @@ public class Goal {
         this.account = accountG;
     }
 
+    @JsonGetter
     public BigDecimal goal() {
         return goal;
     }
@@ -71,6 +79,7 @@ public class Goal {
         this.goal = goal;
     }
 
+    @JsonGetter
     public BigDecimal state() {
         return state;
     }

@@ -26,8 +26,7 @@ public class AccountUser {
     @GeneratedValue (strategy = GenerationType.AUTO)
     private int id;
 
-
-    public Account account() {
+    public Account getAccount() {
         return account;
     }
 
@@ -35,7 +34,7 @@ public class AccountUser {
         this.account = account;
     }
 
-    public User user() {
+    public User getUser() {
         return user;
     }
 
@@ -43,7 +42,7 @@ public class AccountUser {
         this.user = user;
     }
 
-    public double weight() {
+    public double getWeight() {
         return weight;
     }
 
@@ -51,7 +50,7 @@ public class AccountUser {
         this.weight = weight;
     }
 
-    public Account_enum permission() {
+    public Account_enum getPermission() {
         return permission;
     }
 
@@ -59,11 +58,11 @@ public class AccountUser {
         this.permission = permission;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

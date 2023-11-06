@@ -1,5 +1,6 @@
 package by.kirylarol.spendsculptor.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Cascade;
 
@@ -22,7 +23,16 @@ public class Account {
     @Column (name = "created_at")
     private Date dateCreated;
 
-    public int id() {
+    public Account(String name, Date date) {
+        this.name = name;
+        this.dateCreated = date;
+    }
+
+    public Account() {
+
+    }
+
+    public int getId() {
         return id;
     }
 
@@ -30,7 +40,7 @@ public class Account {
         this.id = id;
     }
 
-    public String name() {
+    public String getName() {
         return name;
     }
 
@@ -38,15 +48,15 @@ public class Account {
         this.name = name;
     }
 
-    public Date dateCreated() {
-        return dateCreated;
+    public String getDateCreated() {
+        return String.valueOf(dateCreated);
     }
 
     public void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
     }
 
-    public List<Receipt> receiptList() {
+    public List<Receipt> getReceiptList() {
         return receiptList;
     }
 
@@ -54,7 +64,7 @@ public class Account {
         this.receiptList = receiptList;
     }
 
-    public List<AccountUser> accountUsers() {
+    public List<AccountUser> getAccountUsers() {
         return accountUsers;
     }
 
@@ -62,7 +72,7 @@ public class Account {
         this.accountUsers = accountUsers;
     }
 
-    public List<Goal> goalList() {
+    public List<Goal> getGoalList() {
         return goalList;
     }
 
@@ -70,16 +80,22 @@ public class Account {
         this.goalList = goalList;
     }
 
+
+    @JsonIgnore
     @OneToMany (mappedBy = "account")
     @Cascade({org.hibernate.annotations.CascadeType.ALL})
     private List<Receipt> receiptList;
 
-    @OneToMany (mappedBy = "account")
+    @JsonIgnore
+    @OneToMany (orphanRemoval = true, mappedBy = "account")
     @Cascade({org.hibernate.annotations.CascadeType.ALL})
     private List<AccountUser> accountUsers;
 
+    @JsonIgnore
     @OneToMany (mappedBy = "account")
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<Goal> goalList;
+
+
 
 }

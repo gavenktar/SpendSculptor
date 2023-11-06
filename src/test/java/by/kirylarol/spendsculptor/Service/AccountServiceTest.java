@@ -22,7 +22,7 @@ public class AccountServiceTest {
         Account account = new Account();
         account.setName("Alexander");
         account = accountService.addAccount(account);
-        assert(account.id() != 0);
+        assert(account.getId() != 0);
     }
 
     @Test

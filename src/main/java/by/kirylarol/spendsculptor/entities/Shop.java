@@ -1,6 +1,7 @@
 package by.kirylarol.spendsculptor.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -20,26 +21,26 @@ public class Shop {
     @OneToMany (mappedBy = "shop")
     private List<Receipt> receiptList;
 
-
-    public int id() {
-        return id;
-    }
-
     public void setId(int id) {
         this.id = id;
     }
 
-    public String name() {
-        return name;
-    }
+
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public List<Receipt> receiptList() {
+    public String getName() {
+        return name;
+    }
+
+    @JsonIgnore
+    public List<Receipt> getReceiptList() {
         return receiptList;
     }
+
+
 
     public void setReceiptList(List<Receipt> receiptList) {
         this.receiptList = receiptList;
