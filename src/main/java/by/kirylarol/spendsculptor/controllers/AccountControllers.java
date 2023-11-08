@@ -6,10 +6,8 @@ import by.kirylarol.spendsculptor.Service.AccountUserService;
 import by.kirylarol.spendsculptor.Service.GoalService;
 import by.kirylarol.spendsculptor.dto.AccountDTO;
 import by.kirylarol.spendsculptor.dto.FullAccountDTO;
-import by.kirylarol.spendsculptor.entities.Account;
-import by.kirylarol.spendsculptor.entities.AccountUser;
-import by.kirylarol.spendsculptor.entities.Goal;
-import by.kirylarol.spendsculptor.entities.User;
+import by.kirylarol.spendsculptor.dto.ReceiptsDTO;
+import by.kirylarol.spendsculptor.entities.*;
 import by.kirylarol.spendsculptor.security.UserCredentials;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,10 +104,23 @@ public class AccountControllers {
         FullAccountDTO fullAccountDTO = new FullAccountDTO();
         fullAccountDTO.setUserRole(current.getPermission());
         fullAccountDTO.setGoalList(account.getGoalList());
-        fullAccountDTO.setReceiptList(account.getReceiptList());
+        fullAccountDTO.setReceiptList(current.getReceiptList());
         fullAccountDTO.setUserList(accountUserService.getUsersByAccount(current.getAccount()));
         fullAccountDTO.setAccount(current.getAccount());
+        fullAccountDTO.setWeight(current.getWeight());
         return fullAccountDTO;
+    }
+
+
+    @GetMapping ("/{id}/receipts")
+    public ReceiptsDTO accountReceipts(@PathVariable int id) throws Exception{
+        User user = getUser();
+        if (!accountUserService.accessForUser(id, user.getId())) throw new BadCredentialsException("Нет доступа к этому счету");
+        AccountUser current = accountUserService.getByUserAndAccount(id,user.getId());
+        ReceiptsDTO receiptsDTO = new ReceiptsDTO();
+        receiptsDTO.setAccountUser(current);
+        receiptsDTO.setReceiptList(current.getReceiptList());
+        return receiptsDTO;
     }
 
     Account toAccount (AccountDTO accountDTO){

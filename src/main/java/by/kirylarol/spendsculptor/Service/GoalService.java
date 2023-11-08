@@ -15,8 +15,8 @@ import java.util.List;
 @Service
 @Transactional (readOnly = true)
 public class GoalService {
-    private GoalRepository goalRepository;
-    private ReceiptService receiptService;
+    private final GoalRepository goalRepository;
+    private final ReceiptService receiptService;
 
     @Autowired
     public GoalService(GoalRepository goalRepository, ReceiptService receiptService) {

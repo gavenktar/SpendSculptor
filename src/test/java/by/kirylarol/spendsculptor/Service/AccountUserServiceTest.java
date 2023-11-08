@@ -80,7 +80,7 @@ public class AccountUserServiceTest {
         accountUserService.removeUser(accountUser.getAccount(), user1);
         accountUser = accountUserService.getByUserAndAccount(accountUser.getAccount(),user2);
         assert ((abs(accountUser.getWeight()) - 1) < 0.01);
-        List<User> userList = accountUserService.getUsersByAccount(accountUser.getAccount());
+        List<AccountUser> userList = accountUserService.getUsersByAccount(accountUser.getAccount());
         Assert.assertEquals(userList.size(),1);
     }
 

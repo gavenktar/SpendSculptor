@@ -8,9 +8,19 @@ public class FullAccountDTO {
 
     Account_enum userRole;
     Account account;
-    List<User> userList;
+    List<AccountUser> userList;
     List<Goal> goalList;
     List<Receipt> receiptList;
+
+    double weight;
+
+    public double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
 
     public FullAccountDTO() {
 
@@ -33,12 +43,11 @@ public class FullAccountDTO {
     }
 
 
-
-    public List<User> getUserList() {
+    public List<AccountUser> getUserList() {
         return userList;
     }
 
-    public void setUserList(List<User> userList) {
+    public void setUserList(List<AccountUser> userList) {
         this.userList = userList;
     }
 

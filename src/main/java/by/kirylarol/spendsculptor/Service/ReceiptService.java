@@ -4,6 +4,7 @@ package by.kirylarol.spendsculptor.Service;
 import by.kirylarol.spendsculptor.entities.Account;
 import by.kirylarol.spendsculptor.Api.ApiSender;
 import by.kirylarol.spendsculptor.Api.JsonStringIntoInternalParser;
+import by.kirylarol.spendsculptor.entities.AccountUser;
 import by.kirylarol.spendsculptor.entities.Position;
 import by.kirylarol.spendsculptor.entities.Receipt;
 import by.kirylarol.spendsculptor.repos.ReceiptRepository;
@@ -37,7 +38,7 @@ public class ReceiptService {
 
 
     @Transactional
-    public Receipt addReceipt (File receiptImage, Account User, Date date, BigDecimal price) throws Exception {
+    public Receipt addReceipt (File receiptImage, AccountUser User, Date date, BigDecimal price) throws Exception {
         Receipt receipt = new Receipt();
         receipt.setAccount(User);
         receipt.setDate(date);

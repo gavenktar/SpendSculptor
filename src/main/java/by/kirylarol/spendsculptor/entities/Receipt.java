@@ -19,12 +19,12 @@ public class Receipt {
     @Column (name = "receipt_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int receiptId;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy")
     private Date date;
 
     @ManyToOne
-    @JoinColumn (name = "account_id")
-    private Account account;
+    @JoinColumn (name = "account_user_id")
+    private AccountUser account;
     @ManyToOne
     @JoinColumn (name = "shop_id")
     private Shop shop;
@@ -44,8 +44,12 @@ public class Receipt {
         return date;
     }
 
-    public Account getAccount() {
+    public AccountUser getAccount() {
         return account;
+    }
+
+    public void setAccount(AccountUser account) {
+        this.account = account;
     }
 
     public Shop getShop() {
@@ -64,16 +68,9 @@ public class Receipt {
         this.receiptId = receiptId;
     }
 
-
     public void setDate(Date date) {
         this.date = date;
     }
-
-
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
 
     public void setShop(Shop shop) {
         this.shop = shop;

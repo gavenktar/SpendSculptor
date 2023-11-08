@@ -56,13 +56,6 @@ public class Account {
         this.dateCreated = dateCreated;
     }
 
-    public List<Receipt> getReceiptList() {
-        return receiptList;
-    }
-
-    public void setReceiptList(List<Receipt> receiptList) {
-        this.receiptList = receiptList;
-    }
 
     public List<AccountUser> getAccountUsers() {
         return accountUsers;
@@ -81,10 +74,7 @@ public class Account {
     }
 
 
-    @JsonIgnore
-    @OneToMany (mappedBy = "account")
-    @Cascade({org.hibernate.annotations.CascadeType.ALL})
-    private List<Receipt> receiptList;
+
 
     @JsonIgnore
     @OneToMany (orphanRemoval = true, mappedBy = "account")

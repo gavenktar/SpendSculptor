@@ -9,27 +9,30 @@ import java.math.BigDecimal;
 import java.sql.Date;
 
 @Entity
-@Table (name = "goal")
+@Table(name = "goal")
 public class Goal {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.AUTO)
-    @Column (name = "goal_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "goal_id")
     private int id;
 
-    @Column (name = "created_at")
+    @Column(name = "goal_name")
+    String name;
+
+    @Column(name = "created_at")
     private Date created;
 
-    @Column (name = "valid_until")
+    @Column(name = "valid_until")
     private Date valid;
 
     @ManyToOne
-    @JoinColumn (name = "account_id")
+    @JoinColumn(name = "account_id")
     private Account account;
 
     @Column(name = "goal_value")
     private BigDecimal goal;
-    @Column (name = "current_state")
+    @Column(name = "current_state")
     private BigDecimal state;
 
 
@@ -56,6 +59,16 @@ public class Goal {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     public Date valid() {
         return valid;
+    }
+
+    @JsonGetter
+    @Transient
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setValid(Date valid) {

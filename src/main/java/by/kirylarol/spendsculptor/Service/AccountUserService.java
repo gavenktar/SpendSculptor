@@ -111,8 +111,8 @@ public class AccountUserService {
         }
     }
 
-    public List<User> getUsersByAccount (Account account){
-        List<User> accountUsers = accountUserRepository.findUserByAccount(account);
+    public List<AccountUser> getUsersByAccount (Account account){
+        List<AccountUser> accountUsers = accountUserRepository.findAccountUsersByAccount(account);
         return  accountUsers;
     }
 

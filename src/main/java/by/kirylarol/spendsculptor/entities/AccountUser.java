@@ -1,6 +1,10 @@
 package by.kirylarol.spendsculptor.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
+
+import java.util.List;
 
 @Entity
 @Table (name = "account_to_user")
@@ -64,5 +68,18 @@ public class AccountUser {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @JsonIgnore
+    @OneToMany (mappedBy = "account")
+    @Cascade({org.hibernate.annotations.CascadeType.ALL})
+    private List<Receipt> receiptList;
+
+    public void setReceiptList(List<Receipt> receiptList) {
+        this.receiptList = receiptList;
+    }
+
+    public List<Receipt> getReceiptList() {
+        return receiptList;
     }
 }

@@ -7,12 +7,13 @@ import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class AccountDTO {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     @NotEmpty(message = "Дата не может быть пустой")
-    private Date date;
+    private LocalDate date;
 
     @NotEmpty(message = "Название счета не может быть пустым")
     @Size(min = 2, max = 100, message = "Название счета может содержать от 2 до 100 символов")
@@ -27,11 +28,11 @@ public class AccountDTO {
         this.name = name;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(String date) {
-        this.date = Date.valueOf(date);
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 }
