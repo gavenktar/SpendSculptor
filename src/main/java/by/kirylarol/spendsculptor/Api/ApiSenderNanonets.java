@@ -6,8 +6,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -24,40 +29,52 @@ public class ApiSenderNanonets implements ApiSender {
     @Value("${url}")
     private String url;
 
+    @Override
+    public String send(MultipartFile multipartFile) {
+        try {
+            File convertedFile = File.createTempFile("temp", null);
+
+
+            try (InputStream inputStream = multipartFile.getInputStream()) {
+                Files.copy(inputStream, convertedFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            }
+            return send(convertedFile);
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
 
     @Override
     public String send(File image) {
-        try {
-            MediaType MEDIA_TYPE_JPG = MediaType.parse("image/jpeg");
-            url = url.replace("{{model_id}}", modelId);
-            OkHttpClient client = new OkHttpClient.Builder()
-                    .connectTimeout(30, TimeUnit.MINUTES)
-                    .readTimeout(30, TimeUnit.MINUTES)
-                    .writeTimeout(30, TimeUnit.MINUTES)
-                    .build();
+        MediaType MEDIA_TYPE_JPG = MediaType.parse("image/jpeg");
+        url = url.replace("{{model_id}}", modelId);
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(30, TimeUnit.MINUTES)
+                .readTimeout(30, TimeUnit.MINUTES)
+                .writeTimeout(30, TimeUnit.MINUTES)
+                .build();
 
 
-            RequestBody requestBody = new MultipartBody.Builder()
-                    .setType(MultipartBody.FORM)
-                    .addFormDataPart("file", image.getName(), RequestBody.create(MEDIA_TYPE_JPG, image))
-                    .build();
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("file", image.getName(), RequestBody.create(MEDIA_TYPE_JPG, image))
+                .build();
 
-            Request request = new Request.Builder()
-                    .url(url)
-                    .post(requestBody)
-                    .addHeader("Authorization", Credentials.basic(key, ""))
-                    .build();
+        Request request = new Request.Builder()
+                .url(url)
+                .post(requestBody)
+                .addHeader("Authorization", Credentials.basic(key, ""))
+                .build();
 
 
-            try (Response response = client.newCall(request).execute()) {
-                return response.body().string();
-            }
-
-        }
-        catch(Exception e){
-                System.out.println(e);
-            }
-        return null;
+        try (Response response = client.newCall(request).execute()) {
+            return response.body().string();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
+}
 

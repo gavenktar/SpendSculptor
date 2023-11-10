@@ -3,8 +3,7 @@ package by.kirylarol.spendsculptor.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Cascade;
-
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -21,9 +20,9 @@ public class Account {
     private String name;
 
     @Column (name = "created_at")
-    private Date dateCreated;
+    private LocalDate dateCreated;
 
-    public Account(String name, Date date) {
+    public Account(String name, LocalDate date) {
         this.name = name;
         this.dateCreated = date;
     }
@@ -52,10 +51,9 @@ public class Account {
         return String.valueOf(dateCreated);
     }
 
-    public void setDateCreated(Date dateCreated) {
+    public void setDateCreated(LocalDate dateCreated) {
         this.dateCreated = dateCreated;
     }
-
 
     public List<AccountUser> getAccountUsers() {
         return accountUsers;

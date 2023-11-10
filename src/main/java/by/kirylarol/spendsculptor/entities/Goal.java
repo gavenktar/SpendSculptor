@@ -6,8 +6,7 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
-import java.sql.Date;
-
+import java.time.LocalDate;
 @Entity
 @Table(name = "goal")
 public class Goal {
@@ -21,10 +20,10 @@ public class Goal {
     String name;
 
     @Column(name = "created_at")
-    private Date created;
+    private LocalDate created;
 
     @Column(name = "valid_until")
-    private Date valid;
+    private LocalDate valid;
 
     @ManyToOne
     @JoinColumn(name = "account_id")
@@ -47,17 +46,17 @@ public class Goal {
 
     @JsonGetter
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-    public Date created() {
+    public LocalDate created() {
         return created;
     }
 
-    public void setCreated(Date created) {
+    public void setCreated(LocalDate created) {
         this.created = created;
     }
 
     @JsonGetter
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-    public Date valid() {
+    public LocalDate valid() {
         return valid;
     }
 
@@ -71,7 +70,7 @@ public class Goal {
         this.name = name;
     }
 
-    public void setValid(Date valid) {
+    public void setValid(LocalDate valid) {
         this.valid = valid;
     }
 

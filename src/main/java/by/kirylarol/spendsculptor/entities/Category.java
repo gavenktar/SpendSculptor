@@ -3,16 +3,15 @@ package by.kirylarol.spendsculptor.entities;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import jakarta.persistence.*;
-import org.hibernate.annotations.Cascade;
-
 import java.util.List;
-
 import java.util.ArrayList;
 import java.util.Objects;
 
 @Entity
 @Table(name = "Categories")
 public class Category {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column (name = "category_id")
@@ -22,7 +21,6 @@ public class Category {
     private String categoryName;
 
     @OneToMany (mappedBy = "category",fetch=FetchType.EAGER)
-    @Cascade({org.hibernate.annotations.CascadeType.PERSIST, org.hibernate.annotations.CascadeType.MERGE})
     private List<Position> positions = new ArrayList<>();
 
 
@@ -49,6 +47,14 @@ public class Category {
         if (o == null || getClass() != o.getClass()) return false;
         Category category = (Category) o;
         return Objects.equals(categoryName, category.categoryName);
+    }
+
+    public List<Position> getPositions() {
+        return positions;
+    }
+
+    public void setPositions(List<Position> positions) {
+        this.positions = positions;
     }
 
     @Override

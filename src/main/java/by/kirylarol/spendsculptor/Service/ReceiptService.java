@@ -4,7 +4,6 @@ package by.kirylarol.spendsculptor.Service;
 import by.kirylarol.spendsculptor.entities.Account;
 import by.kirylarol.spendsculptor.Api.ApiSender;
 import by.kirylarol.spendsculptor.Api.JsonStringIntoInternalParser;
-import by.kirylarol.spendsculptor.entities.AccountUser;
 import by.kirylarol.spendsculptor.entities.Position;
 import by.kirylarol.spendsculptor.entities.Receipt;
 import by.kirylarol.spendsculptor.repos.ReceiptRepository;
@@ -12,10 +11,10 @@ import by.kirylarol.spendsculptor.utils.Hotkeys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -38,29 +37,16 @@ public class ReceiptService {
 
 
     @Transactional
-    public Receipt addReceipt (File receiptImage, AccountUser User, Date date, BigDecimal price) throws Exception {
-        Receipt receipt = new Receipt();
-        receipt.setAccount(User);
-        receipt.setDate(date);
-        receipt.setTotal(price);
-        return addReceipt(receiptImage, receipt);
-    }
-
-    @Transactional
-    public Receipt addReceipt(File receiptImage, Receipt receipt) throws Exception {
+    public void parseReceipt(MultipartFile receiptImage, Receipt receipt) throws Exception {
         String result = apiSender.send(receiptImage);
         List<Position> positionList = new ArrayList<>(jsonStringIntoInternalParser.firstParseStageAfterHttp(result).parse());
-        Optional<Position> position = positionList.stream().filter(elem -> {
-            return Objects.equals(elem.name(), Hotkeys.TOTAL.getName());
-        }).findFirst();
+        Optional<Position> position = positionList.stream().filter(elem -> Objects.equals(elem.name(), Hotkeys.TOTAL.getName())).findFirst();
         if (position.isPresent()) {
             BigDecimal total = position.get().getPrice();
             positionList.remove(position.get());
             receipt.setTotal(total);
         }
         receipt.setPositionList(positionList);
-
-        return  this.save(receipt);
     }
 
     public Receipt save(Receipt receipt) {
@@ -76,7 +62,7 @@ public class ReceiptService {
     }
 
     @Transactional
-    public Receipt addReceipt(Receipt receipt) throws Exception {
+    public Receipt addReceipt(Receipt receipt) {
         return this.save(receipt);
     }
 
@@ -93,14 +79,13 @@ public class ReceiptService {
         return  receiptRepository.findAllByAccountId(id);
     }
 
-    public List<Receipt> getAllBetween (Date date1, Date date2){
+    public List<Receipt> getAllBetween (LocalDate date1, LocalDate date2){
         return receiptRepository.findAllByDateBetween(date1,date2);
     }
 
     @Transactional
-    public Receipt update (int id, Receipt receipt) {
-        receipt.setReceiptId(id);
-        return receiptRepository.save(receipt);
+    public void update (Receipt receipt) {
+        receiptRepository.save(receipt);
     }
 
     @Transactional
@@ -109,7 +94,7 @@ public class ReceiptService {
     }
 
 
-    public BigDecimal getAllSpends (Account account, Date start, Date end){
+    public BigDecimal getAllSpends (Account account, LocalDate start, LocalDate end){
         return receiptRepository.getTotalByAccount(account,start,end);
     }
 

@@ -93,6 +93,9 @@ public class JsonStringIntoInternalParser {
                     }
                 }
             }
+            for (var elem : map.values()){
+                System.out.println(elem);
+            }
             return map.values().stream().toList();
         }
         return null;

@@ -2,13 +2,12 @@ package by.kirylarol.spendsculptor.entities;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import jakarta.persistence.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -20,7 +19,7 @@ public class Receipt {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int receiptId;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy")
-    private Date date;
+    private LocalDate date;
 
     @ManyToOne
     @JoinColumn (name = "account_user_id")
@@ -33,16 +32,14 @@ public class Receipt {
     private BigDecimal total;
 
 
-    @OneToMany(mappedBy = "receipt" , fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "receipt" , fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Position> positionList;
 
     public int getReceiptId() {
         return receiptId;
     }
 
-    public Date getDate() {
-        return date;
-    }
+
 
     public AccountUser getAccount() {
         return account;
@@ -68,9 +65,10 @@ public class Receipt {
         this.receiptId = receiptId;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public LocalDate getDate() {
+        return date;
     }
+
 
     public void setShop(Shop shop) {
         this.shop = shop;
@@ -84,5 +82,9 @@ public class Receipt {
 
     public void setPositionList(@NotNull List<Position> positionList) {
         this.positionList = positionList;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 }

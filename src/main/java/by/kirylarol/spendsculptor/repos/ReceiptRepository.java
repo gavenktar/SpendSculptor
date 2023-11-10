@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -16,9 +17,9 @@ import java.util.List;
 public interface ReceiptRepository extends JpaRepository<Receipt, Integer> {
     List<Receipt> findAllByAccountId(int id);
 
-    List<Receipt> findAllByDateBetween(Date date1, Date date2);
+    List<Receipt> findAllByDateBetween(LocalDate date1, LocalDate date2);
 
 
     @Query ("SELECT e.total FROM Receipt e WHERE e.account = :account_id AND e.date BETWEEN :start AND :end")
-    BigDecimal getTotalByAccount (@Param("account_id") Account account_id, @Param("start") Date start, @Param("end") Date end);
+    BigDecimal getTotalByAccount (@Param("account_id") Account account_id, @Param("start") LocalDate start, @Param("end") LocalDate end);
 }

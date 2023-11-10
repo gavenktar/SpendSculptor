@@ -1,22 +1,16 @@
 package by.kirylarol.spendsculptor.Service;
 
-import by.kirylarol.spendsculptor.Service.CategoryService;
 import by.kirylarol.spendsculptor.entities.*;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -49,7 +43,7 @@ public class GoalServiceTest {
     @Test
     public void createGoalTest() {
         accountUser = accountUserService.addAccount("TEST ACCOUNT", user1);
-        Goal goal = goalService.createGoal(accountUser.getAccount(), "TEST GOAL", Date.valueOf("2023-10-09"), Date.valueOf("2023-11-15"), BigDecimal.valueOf(4000), BigDecimal.valueOf(400));
+        Goal goal = goalService.createGoal(accountUser.getAccount(), "TEST GOAL", LocalDate.parse ("2023-10-09"), LocalDate.parse("2023-11-15"), BigDecimal.valueOf(4000), BigDecimal.valueOf(400));
         Assert.assertNotNull(goal);
         List<Goal> list =  goalService.takeAllGoals(accountUser.getAccount());
         Assert.assertEquals(1,list.size());
@@ -58,8 +52,8 @@ public class GoalServiceTest {
     @Test
     public void testInRange(){
         createGoalTest();
-        Date date1 = Date.valueOf("2023-10-08");
-        Date date2 = Date.valueOf("2023-11-13");
+        LocalDate date1 = LocalDate.parse("2023-10-08");
+        LocalDate date2 = LocalDate.parse("2023-11-13");
         List<Goal> list = goalService.takeGoalValidUntilDate(accountUser.getAccount(), date1);
         List<Goal> list1 = goalService.takeGoalValidUntilDate(accountUser.getAccount(), date2);
         Assert.assertEquals(0,list.size());

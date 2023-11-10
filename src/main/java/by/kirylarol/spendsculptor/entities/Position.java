@@ -2,9 +2,6 @@ package by.kirylarol.spendsculptor.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.validator.cfg.context.Cascadable;
-import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
 

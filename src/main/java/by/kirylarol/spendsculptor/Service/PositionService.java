@@ -15,11 +15,14 @@ import java.util.Optional;
 @Service
 @Transactional (readOnly = true)
 public class PositionService {
-    private PositionRepository positionRepository;
+    private final PositionRepository positionRepository;
+    private final CategoryService categoryService;
+
 
     @Autowired
-    public PositionService(PositionRepository positionRepository) {
+    public PositionService(PositionRepository positionRepository, CategoryService categoryService) {
         this.positionRepository = positionRepository;
+        this.categoryService = categoryService;
     }
 
     @Transactional
@@ -50,6 +53,15 @@ public class PositionService {
     @Transactional
     public List<Position> getAllByCategory(Category category){
         return positionRepository.getAllByCategory(category);
+    }
+
+    @Transactional
+    public void updateList(List<Position> positionList, Receipt receipt){
+        for (Position position : positionList) {
+            position.setReceipt(receipt);
+            categoryService.createCategory(position.getCategory());
+            positionRepository.save(position);
+        }
     }
 
 }

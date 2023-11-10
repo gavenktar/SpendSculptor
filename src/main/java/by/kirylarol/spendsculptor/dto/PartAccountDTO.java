@@ -5,7 +5,7 @@ import by.kirylarol.spendsculptor.entities.Receipt;
 
 import java.util.List;
 
-public class ReceiptsDTO {
+public class PartAccountDTO {
 
 
     AccountUser accountUser;

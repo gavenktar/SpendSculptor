@@ -20,7 +20,8 @@ public class ShopService {
 
     @Transactional
     public Shop addShop (String name){
-        if (shopRepository.findByName(name) != null)return shopRepository.findByName(name);
+        List<Shop> list= shopRepository.findByName(name);
+        if (!list.isEmpty())return list.get(0);
         Shop shop = new Shop();
         shop.setName(name);
         return shopRepository.save(shop);

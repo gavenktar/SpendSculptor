@@ -2,13 +2,14 @@ package by.kirylarol.spendsculptor.Service;
 
 
 import by.kirylarol.spendsculptor.entities.Category;
+import by.kirylarol.spendsculptor.entities.Position;
 import by.kirylarol.spendsculptor.repos.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -34,18 +35,30 @@ public class CategoryService {
 
     @Transactional
     public Category createCategory (Category category){
+        category.setPositions(new ArrayList<>());
         return categoryRepository.save(category);
+    }
+
+
+    public void predictCategory (List<Position> positionList, int userId){
+        for (var elem : positionList){
+            if (elem.getCategory() == null){
+                List<Category> res = categoryRepository.findTopCategoryByNameAndUserId(elem.getName(), userId);
+                if (!res.isEmpty()) {
+                    elem.setCategory(res.get(0));
+                }
+            }
+        }
     }
 
     @Transactional
     public void deleteCategory (String name){
         Category category = categoryRepository.findDistinctFirstByCategoryName(name);
-        if (category == null) return;else deleteCategory(category);
+        if (category != null) deleteCategory(category);
     }
     @Transactional
     public void deleteCategory (Category category){
         categoryRepository.delete(category);
-        return;
     }
 
     @Transactional
@@ -61,7 +74,7 @@ public class CategoryService {
     @Transactional
     public Category createCategory (String name){
 
-        Category category1 = this.getByName(name);
+        Category category1 = categoryRepository.findByCategoryName(name);
         if (category1 != null) return category1;
         Category category = new Category();
         category.setCategoryName(name);

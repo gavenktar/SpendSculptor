@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -25,7 +24,7 @@ public class GoalService {
     }
 
     @Transactional
-    public Goal createGoal(Account account, String name, Date createDate, Date validDate, BigDecimal target, BigDecimal currstate){
+    public Goal createGoal(Account account, String name, LocalDate createDate, LocalDate validDate, BigDecimal target, BigDecimal currstate){
         Goal goal = new Goal();
         goal.setGoal(target);
         goal.setCreated(createDate);
@@ -46,8 +45,8 @@ public class GoalService {
 
     @Transactional
     public List<Goal> takeActiveGoals (Account account){
-        Date date1 = Date.valueOf(LocalDate.now());
-        return goalRepository.findGoalsByAccount_IdAndValidAfterAndCreatedBefore(account.getId(), date1,date1);
+        LocalDate now = LocalDate.now();
+        return goalRepository.findGoalsByAccount_IdAndValidAfterAndCreatedBefore(account.getId(), now,now);
     }
 
     @Transactional
@@ -60,7 +59,7 @@ public class GoalService {
         return goalRepository.findGoalsByAccount_Id(account.getId());
     }
 
-    public  List<Goal> takeGoalValidUntilDate (Account account, Date date){
+    public  List<Goal> takeGoalValidUntilDate (Account account, LocalDate date){
         System.out.println(date.toString());
         System.out.println(account.getId());
         return goalRepository.findGoalsByAccount_IdAndValidAfterAndCreatedBefore(account.getId(), date,date);
