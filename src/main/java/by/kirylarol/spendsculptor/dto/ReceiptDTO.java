@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class ReceiptDTO {
-    @JsonFormat(pattern = "MM.dd.yyyy")
+    @JsonFormat(pattern = "dd.MM.yyyy")
     private LocalDate date;
     private List<Position> positionList;
 

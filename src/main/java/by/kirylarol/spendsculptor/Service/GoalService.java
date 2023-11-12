@@ -26,13 +26,19 @@ public class GoalService {
     @Transactional
     public Goal createGoal(Account account, String name, LocalDate createDate, LocalDate validDate, BigDecimal target, BigDecimal currstate){
         Goal goal = new Goal();
-        goal.setGoal(target);
+        goal.setTarget(target);
         goal.setCreated(createDate);
         goal.setValid(validDate);
         goal.setState(currstate);
         goal.setAccount(account);
         return goalRepository.save(goal);
     }
+
+    @Transactional
+    public Goal createGoal(Goal goal){
+        return goalRepository.save(goal);
+    }
+
 
     @Transactional
     public void UpdateGoal(Account account){
@@ -47,6 +53,21 @@ public class GoalService {
     public List<Goal> takeActiveGoals (Account account){
         LocalDate now = LocalDate.now();
         return goalRepository.findGoalsByAccount_IdAndValidAfterAndCreatedBefore(account.getId(), now,now);
+    }
+
+
+    public void changeStateOfGoals (Account account, LocalDate date, BigDecimal price){
+        List<Goal> activeGoals = takeGoalValidUntilDate(account,date);
+        for (var elem : activeGoals){
+            elem.setState( elem.getState().add(price) );
+        }
+        goalRepository.saveAll(activeGoals);
+    }
+
+    @Transactional
+    public void deleteGoal (int goalId){
+        Goal goal = goalRepository.findById(goalId).orElseThrow();
+        deleteGoal(goal);
     }
 
     @Transactional

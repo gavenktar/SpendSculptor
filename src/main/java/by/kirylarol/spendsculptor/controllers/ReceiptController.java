@@ -1,10 +1,7 @@
 package by.kirylarol.spendsculptor.controllers;
 
 
-import by.kirylarol.spendsculptor.Service.AccountUserService;
-import by.kirylarol.spendsculptor.Service.CategoryService;
-import by.kirylarol.spendsculptor.Service.PositionService;
-import by.kirylarol.spendsculptor.Service.ReceiptService;
+import by.kirylarol.spendsculptor.Service.*;
 import by.kirylarol.spendsculptor.dto.ReceiptDTO;
 import by.kirylarol.spendsculptor.entities.*;
 import by.kirylarol.spendsculptor.security.Util;
@@ -14,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +20,7 @@ public class ReceiptController {
 
     ReceiptService receiptService;
     CategoryService categoryService;
+    GoalService goalService;
 
     AccountUserService accountUserService;
     PositionService positionService;
@@ -29,9 +28,10 @@ public class ReceiptController {
     Util util;
 
     @Autowired
-    public ReceiptController(ReceiptService receiptService, CategoryService categoryService, AccountUserService accountUserService, PositionService positionService, Util util) {
+    public ReceiptController(ReceiptService receiptService, CategoryService categoryService, GoalService goalService, AccountUserService accountUserService, PositionService positionService, Util util) {
         this.receiptService = receiptService;
         this.categoryService = categoryService;
+        this.goalService = goalService;
         this.accountUserService = accountUserService;
         this.positionService = positionService;
         this.util = util;
@@ -41,21 +41,24 @@ public class ReceiptController {
     public String updateReceipt(@PathVariable int id, @RequestBody ReceiptDTO receiptDTO) throws Exception {
         User user = util.getUser();
         Receipt receipt = receiptService.getReceipt(id);
+        BigDecimal totalBefore = receipt.getTotal();
         if (receipt == null || !checkAccess(user, receipt))
             throw new HttpClientErrorException(HttpStatusCode.valueOf(400));
         util.toReceipt(receipt, receiptDTO);
         List<Position> positionList = receipt.getPositionList();
         receipt.setPositionList(new ArrayList<>());
+        BigDecimal totalAfter = receipt.getTotal();
+        BigDecimal add = totalAfter.subtract(totalBefore);
+        goalService.changeStateOfGoals(receipt.getAccount().getAccount(),receipt.getDate(),add);
         receiptService.update(receipt);
         positionService.updateList(positionList,receipt);
-
         return "Успешно";
     }
 
     boolean checkAccess(User user, Receipt receipt) {
         Account account = receipt.getAccount().getAccount();
         AccountUser accountUser = accountUserService.getByUserAndAccount(account.getId(), user.getId());
-        return accountUser != null && (accountUser.getPermission() != Account_enum.ACCOUNT_USER || receipt.getAccount() == accountUser);
+        return accountUser != null && (accountUser.getPermission() != ACCOUNT_ENUM.ACCOUNT_USER || receipt.getAccount() == accountUser);
     }
 
     @PostMapping("/receipt/upload/image")

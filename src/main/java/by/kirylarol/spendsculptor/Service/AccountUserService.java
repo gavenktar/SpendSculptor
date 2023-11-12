@@ -3,9 +3,10 @@ package by.kirylarol.spendsculptor.Service;
 
 import by.kirylarol.spendsculptor.entities.Account;
 import by.kirylarol.spendsculptor.entities.AccountUser;
-import by.kirylarol.spendsculptor.entities.Account_enum;
+import by.kirylarol.spendsculptor.entities.ACCOUNT_ENUM;
 import by.kirylarol.spendsculptor.entities.User;
 import by.kirylarol.spendsculptor.repos.AccountUserRepository;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,7 +40,7 @@ public class AccountUserService {
         accountUser.setUser(user);
         accountUser.setAccount(account);
         accountUser.setWeight(1);
-        accountUser.setPermission(Account_enum.ACCOUNT_CREATOR);
+        accountUser.setPermission(ACCOUNT_ENUM.ACCOUNT_CREATOR);
         return accountUserRepository.save(accountUser);
     }
 
@@ -56,7 +57,7 @@ public class AccountUserService {
         accountUser.setUser(user);
         accountUser.setAccount(account);
         accountUser.setWeight(1);
-        accountUser.setPermission(Account_enum.ACCOUNT_CREATOR);
+        accountUser.setPermission(ACCOUNT_ENUM.ACCOUNT_CREATOR);
         return accountUserRepository.save(accountUser);
     }
 
@@ -76,7 +77,18 @@ public class AccountUserService {
     }
 
     @Transactional
-    public AccountUser addUser (Account account, User user, Double weight, Account_enum permission){
+    public AccountUser addUser (Account account, User user, Double weight, ACCOUNT_ENUM permission){
+        return getAccountUser(user, weight, permission, account);
+    }
+
+    @Transactional
+    public AccountUser addUser (int accountid, User user, Double weight, ACCOUNT_ENUM permission){
+        Account account = accountService.getAccount(accountid);
+        return getAccountUser(user, weight, permission, account);
+    }
+
+    @NotNull
+    private AccountUser getAccountUser(User user, Double weight, ACCOUNT_ENUM permission, Account account) {
         List<AccountUser> accountUserList =  accountUserRepository.findAccountUsersByAccount(account);
         double leftWeight = 1 - weight;
         for (var elem : accountUserList){
@@ -91,6 +103,7 @@ public class AccountUserService {
         return accountUserRepository.save(accountUser);
     }
 
+
     public AccountUser getByUserAndAccount(int accountid, int userid){
         return accountUserRepository.findAccountUserByAccountAndUser(accountid,userid);
     }
@@ -100,11 +113,11 @@ public class AccountUserService {
         List<AccountUser> accountUserList = accountUserRepository.findAccountUsersByAccount(account);
         AccountUser removeEntity = accountUserList.stream().filter( accountUser -> accountUser.getUser().equals(user)).findFirst().orElse(null);
         if (removeEntity != null){
-            double weight = 1 - removeEntity.getWeight();
+            double weight =Math.floor((1 - removeEntity.getWeight())*100)/100;
             accountUserRepository.delete(removeEntity);
             for (var elem : accountUserList){
                 if (!elem.equals(removeEntity)) {
-                    elem.setWeight(weight / elem.getWeight());
+                    elem.setWeight( Math.floor(1/weight * elem.getWeight() * 100) / 100);
                     accountUserRepository.save(elem);
                 }
             }

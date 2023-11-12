@@ -1,5 +1,5 @@
 package by.kirylarol.spendsculptor.entities;
 
-public enum Account_enum {
+public enum ACCOUNT_ENUM {
     ACCOUNT_CREATOR, ACCOUNT_ADMIN, ACCOUNT_USER
 }

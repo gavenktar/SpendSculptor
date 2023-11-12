@@ -45,15 +45,22 @@ public class Util {
             throw new BadCredentialsException("Incorrect login");
         }
 
-        return ((UserCredentials)userDetailsService.loadUserByUsername(login)).user();
+        return ((UserCredentials) userDetailsService.loadUserByUsername(login)).user();
     }
 
     public void toReceipt(Receipt receipt, ReceiptDTO receiptDTO) {
-        receipt.setDate(receiptDTO.getDate());
-        Shop shop = shopService.addShop(receiptDTO.getShop().getName());
-        receipt.setShop(shop);
-        receipt.setDate(receiptDTO.getDate());
-        receipt.setTotal(receiptDTO.getTotal());
-        receipt.setPositionList(receiptDTO.getPositionList());
+        if (receiptDTO.getDate() != null) {
+            receipt.setDate(receiptDTO.getDate());
+        }
+        if (receiptDTO.getShop() != null) {
+            Shop shop = shopService.addShop(receiptDTO.getShop().getName());
+            receipt.setShop(shop);
+        }
+        if (receiptDTO.getTotal() != null) {
+            receipt.setTotal(receiptDTO.getTotal());
+        }
+        if (receiptDTO.getPositionList() != null) {
+            receipt.setPositionList(receiptDTO.getPositionList());
+        }
     }
 }

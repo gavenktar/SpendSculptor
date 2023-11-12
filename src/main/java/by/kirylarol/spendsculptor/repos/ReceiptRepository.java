@@ -20,6 +20,6 @@ public interface ReceiptRepository extends JpaRepository<Receipt, Integer> {
     List<Receipt> findAllByDateBetween(LocalDate date1, LocalDate date2);
 
 
-    @Query ("SELECT e.total FROM Receipt e WHERE e.account = :account_id AND e.date BETWEEN :start AND :end")
+    @Query ("SELECT SUM (e.total) FROM Receipt e WHERE e.account.account = :account_id AND e.date BETWEEN :start AND :end")
     BigDecimal getTotalByAccount (@Param("account_id") Account account_id, @Param("start") LocalDate start, @Param("end") LocalDate end);
 }

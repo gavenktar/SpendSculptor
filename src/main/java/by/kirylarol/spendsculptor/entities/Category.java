@@ -2,6 +2,7 @@ package by.kirylarol.spendsculptor.entities;
 
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.List;
 import java.util.ArrayList;
@@ -49,6 +50,7 @@ public class Category {
         return Objects.equals(categoryName, category.categoryName);
     }
 
+    @JsonIgnore
     public List<Position> getPositions() {
         return positions;
     }

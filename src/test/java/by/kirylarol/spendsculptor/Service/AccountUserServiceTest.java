@@ -1,7 +1,5 @@
 package by.kirylarol.spendsculptor.Service;
 
-import by.kirylarol.spendsculptor.Service.AccountUserService;
-import by.kirylarol.spendsculptor.Service.UserService;
 import by.kirylarol.spendsculptor.entities.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -65,7 +63,7 @@ public class AccountUserServiceTest {
     @Rollback (value = false)
     public void addUserTest(){
         addAccountTest();
-        accountUserService.addUser(accountUser.getAccount(), user2,0.8, Account_enum.ACCOUNT_USER);
+        accountUserService.addUser(accountUser.getAccount(), user2,0.8, ACCOUNT_ENUM.ACCOUNT_USER);
         accountUser = accountUserService.getByUserAndAccount(accountUser.getAccount(), user1);
         assert (accountUserService.getUsersByAccount(accountUser.getAccount()).size() == 2);
         assert (abs(accountUser.getWeight() - 0.2) < 0.01);

@@ -5,11 +5,11 @@ import jakarta.validation.constraints.Size;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-public class UserDTO {
+public class  UserDTO {
 
 
     @NotEmpty(message = "Логин не может быть пустой")
-    @Size(min = 2, max = 100, message = "Имя может содержать от 2 до 100 символов")
+    @Size(min = 2, max = 100, message = "Имя пользователя может содержать от 2 до 100 символов")
     private String login;
 
     @NotEmpty (message = "Пароль не может быть пустой")

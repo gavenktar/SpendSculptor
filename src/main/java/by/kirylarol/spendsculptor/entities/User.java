@@ -22,7 +22,7 @@ public class User {
     @JoinColumn (name = "identity_id")
     private Identity identity;
 
-    @Column
+    @Column(unique = true)
     private String login;
 
     @Column

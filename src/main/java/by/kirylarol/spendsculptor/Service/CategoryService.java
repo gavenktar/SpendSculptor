@@ -21,28 +21,31 @@ public class CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
-    public List<Category> getAll(){
+    public List<Category> getAll() {
         return categoryRepository.findAll();
     }
 
-    public Category getById(int id){
+    public Category getById(int id) {
         return categoryRepository.findById(id).orElse(null);
     }
 
-    public Category getByName(String name){
+    public Category getByName(String name) {
         return categoryRepository.findDistinctFirstByCategoryName(name);
     }
 
     @Transactional
-    public Category createCategory (Category category){
-        category.setPositions(new ArrayList<>());
-        return categoryRepository.save(category);
+    public Category createCategory(Category category) {
+        if (category != null) {
+            category.setPositions(new ArrayList<>());
+            return categoryRepository.save(category);
+        }
+        return null;
     }
 
 
-    public void predictCategory (List<Position> positionList, int userId){
-        for (var elem : positionList){
-            if (elem.getCategory() == null){
+    public void predictCategory(List<Position> positionList, int userId) {
+        for (var elem : positionList) {
+            if (elem.getCategory() == null) {
                 List<Category> res = categoryRepository.findTopCategoryByNameAndUserId(elem.getName(), userId);
                 if (!res.isEmpty()) {
                     elem.setCategory(res.get(0));
@@ -52,18 +55,19 @@ public class CategoryService {
     }
 
     @Transactional
-    public void deleteCategory (String name){
+    public void deleteCategory(String name) {
         Category category = categoryRepository.findDistinctFirstByCategoryName(name);
         if (category != null) deleteCategory(category);
     }
+
     @Transactional
-    public void deleteCategory (Category category){
+    public void deleteCategory(Category category) {
         categoryRepository.delete(category);
     }
 
     @Transactional
-    public Category updateCategory(String newName, Category category){
-        if (this.getByName(newName) != null){
+    public Category updateCategory(String newName, Category category) {
+        if (this.getByName(newName) != null) {
             categoryRepository.deleteById(category.categoryId());
             return this.getByName(newName);
         }
@@ -72,7 +76,7 @@ public class CategoryService {
     }
 
     @Transactional
-    public Category createCategory (String name){
+    public Category createCategory(String name) {
 
         Category category1 = categoryRepository.findByCategoryName(name);
         if (category1 != null) return category1;

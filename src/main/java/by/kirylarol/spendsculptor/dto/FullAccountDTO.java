@@ -6,7 +6,7 @@ import java.util.List;
 
 public class FullAccountDTO {
 
-    Account_enum userRole;
+    ACCOUNT_ENUM userRole;
     Account account;
     List<AccountUser> userList;
     List<Goal> goalList;
@@ -26,11 +26,20 @@ public class FullAccountDTO {
 
     }
 
-    public Account_enum getUserRole() {
+    public FullAccountDTO(ACCOUNT_ENUM userRole, Account account, List<AccountUser> userList, List<Goal> goalList, List<Receipt> receiptList, double weight) {
+        this.userRole = userRole;
+        this.account = account;
+        this.userList = userList;
+        this.goalList = goalList;
+        this.receiptList = receiptList;
+        this.weight = weight;
+    }
+
+    public ACCOUNT_ENUM getUserRole() {
         return userRole;
     }
 
-    public void setUserRole(Account_enum userRole) {
+    public void setUserRole(ACCOUNT_ENUM userRole) {
         this.userRole = userRole;
     }
 
@@ -62,6 +71,7 @@ public class FullAccountDTO {
     public List<Receipt> getReceiptList() {
         return receiptList;
     }
+
 
     public void setReceiptList(List<Receipt> receiptList) {
         this.receiptList = receiptList;

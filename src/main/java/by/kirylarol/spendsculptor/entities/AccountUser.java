@@ -24,7 +24,7 @@ public class AccountUser {
     private double weight;
     @Column(name = "permission")
     @Enumerated(EnumType.STRING)
-    private Account_enum permission;
+    private ACCOUNT_ENUM permission;
 
     @Id
     @GeneratedValue (strategy = GenerationType.AUTO)
@@ -54,11 +54,11 @@ public class AccountUser {
         this.weight = weight;
     }
 
-    public Account_enum getPermission() {
+    public ACCOUNT_ENUM getPermission() {
         return permission;
     }
 
-    public void setPermission(Account_enum permission) {
+    public void setPermission(ACCOUNT_ENUM permission) {
         this.permission = permission;
     }
 

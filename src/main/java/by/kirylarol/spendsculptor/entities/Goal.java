@@ -30,7 +30,7 @@ public class Goal {
     private Account account;
 
     @Column(name = "goal_value")
-    private BigDecimal goal;
+    private BigDecimal target;
     @Column(name = "current_state")
     private BigDecimal state;
 
@@ -60,8 +60,7 @@ public class Goal {
         return valid;
     }
 
-    @JsonGetter
-    @Transient
+
     public String getName() {
         return name;
     }
@@ -74,25 +73,32 @@ public class Goal {
         this.valid = valid;
     }
 
-    public Account account() {
-        return account;
-    }
 
     public void setAccount(Account accountG) {
         this.account = accountG;
     }
 
-    @JsonGetter
-    public BigDecimal goal() {
-        return goal;
-    }
-
-    public void setGoal(BigDecimal goal) {
-        this.goal = goal;
-    }
 
     @JsonGetter
-    public BigDecimal state() {
+    public void setTarget(BigDecimal goal) {
+        this.target = goal;
+    }
+
+
+
+    public int getId() {
+        return id;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public BigDecimal getTarget() {
+        return target;
+    }
+
+    public BigDecimal getState() {
         return state;
     }
 
