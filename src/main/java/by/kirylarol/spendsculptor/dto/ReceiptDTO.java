@@ -9,19 +9,19 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class ReceiptDTO {
-    @JsonFormat(pattern = "dd.MM.yyyy")
-    private LocalDate date;
+
+    private long date;
     private List<Position> positionList;
 
     private Shop shop;
 
     private BigDecimal total;
-
-    public LocalDate getDate() {
+    
+    public long getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(long date) {
         this.date = date;
     }
 

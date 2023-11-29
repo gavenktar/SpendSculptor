@@ -1,9 +1,9 @@
-package by.kirylarol.spendsculptor.Service;
+package by.kirylarol.spendsculptor.service;
 
 
 import by.kirylarol.spendsculptor.entities.Account;
-import by.kirylarol.spendsculptor.Api.ApiSender;
-import by.kirylarol.spendsculptor.Api.JsonStringIntoInternalParser;
+import by.kirylarol.spendsculptor.API.ApiSender;
+import by.kirylarol.spendsculptor.API.JsonStringIntoInternalParser;
 import by.kirylarol.spendsculptor.entities.Position;
 import by.kirylarol.spendsculptor.entities.Receipt;
 import by.kirylarol.spendsculptor.repos.ReceiptRepository;
@@ -15,10 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
@@ -97,5 +94,10 @@ public class ReceiptService {
     public BigDecimal getAllSpends (Account account, LocalDate start, LocalDate end){
         return receiptRepository.getTotalByAccount(account,start,end);
     }
+
+    public List<Receipt> getAllReceiptsForUser (int userid){
+        return receiptRepository.getReceiptsByUserId(userid);
+    }
+
 
 }

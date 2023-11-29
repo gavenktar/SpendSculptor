@@ -1,4 +1,4 @@
-package by.kirylarol.spendsculptor.Service;
+package by.kirylarol.spendsculptor.service;
 
 
 import by.kirylarol.spendsculptor.entities.Category;
@@ -36,6 +36,8 @@ public class CategoryService {
     @Transactional
     public Category createCategory(Category category) {
         if (category != null) {
+            Category dbCategory = categoryRepository.findByCategoryName(category.categoryName());
+            if (dbCategory != null) return dbCategory;
             category.setPositions(new ArrayList<>());
             return categoryRepository.save(category);
         }
@@ -80,10 +82,16 @@ public class CategoryService {
 
         Category category1 = categoryRepository.findByCategoryName(name);
         if (category1 != null) return category1;
-        Category category = new Category();
-        category.setCategoryName(name);
+        Category category = new Category(name);
         return createCategory(category);
     }
 
 
+    public List<Category> findAllByUser(int id) {
+        return categoryRepository.findAllByUser(id);
+    }
+
+    public List<Category> findAllByAccountUser(int id){
+        return categoryRepository.findAllByAccountUser(id);
+    }
 }

@@ -11,14 +11,12 @@ import java.time.LocalDate;
 
 public class AccountDTO {
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
-    @NotEmpty(message = "Дата не может быть пустой")
-    private LocalDate date;
 
     @NotEmpty(message = "Название счета не может быть пустым")
     @Size(min = 2, max = 100, message = "Название счета может содержать от 2 до 100 символов")
     private String name;
 
+    private long date;
 
     public String getName() {
         return name;
@@ -28,11 +26,12 @@ public class AccountDTO {
         this.name = name;
     }
 
-    public LocalDate getDate() {
+
+    public long getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(long date) {
         this.date = date;
     }
 }

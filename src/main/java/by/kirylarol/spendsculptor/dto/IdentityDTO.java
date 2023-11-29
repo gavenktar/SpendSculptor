@@ -14,6 +14,14 @@ public class IdentityDTO {
     @Size (min = 2, max = 100, message = "Имя может содержать от 2 до 100 символов")
     private String surname;
 
+    public IdentityDTO(String name, String surname) {
+        this.name = name;
+        this.surname = surname;
+    }
+
+    public IdentityDTO() {
+    }
+
     public String getName() {
         return name;
     }

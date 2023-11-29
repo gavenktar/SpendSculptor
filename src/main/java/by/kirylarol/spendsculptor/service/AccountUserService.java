@@ -1,4 +1,4 @@
-package by.kirylarol.spendsculptor.Service;
+package by.kirylarol.spendsculptor.service;
 
 
 import by.kirylarol.spendsculptor.entities.Account;
@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional (readOnly = true)
@@ -136,7 +137,16 @@ public class AccountUserService {
         return spend.multiply(BigDecimal.valueOf(weight));
     }
 
+
+    public Map<String, String> getAllPermissions(int userID) {
+        return accountUserRepository.returnAllAccessLevels(userID);
+    }
+
     public List<Account> getAccountByUser (User user){
         return accountUserRepository.findAccountByUser(user);
+    }
+
+    public List<AccountUser> getByUser(int id) {
+        return accountUserRepository.findAccountUsersByUserId(id);
     }
 }

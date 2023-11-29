@@ -22,6 +22,10 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
     List<Category> findAllByUser(int userId);
 
 
+    @Query("SELECT DISTINCT  ca FROM Category ca INNER JOIN  ca.positions p INNER JOIN p.receipt r WHERE r.account.id = :accountuserid")
+    List<Category> findAllByAccountUser(int accountuserid);
+
+
     @Query("SELECT ca  FROM Category ca " +
             "INNER JOIN ca.positions p " +
             "INNER JOIN p.receipt r " +
@@ -30,4 +34,6 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
     List<Category> findTopCategoryByNameAndUserId(@Param("name") String name, @Param("userId") int userId);
 
     Category findByCategoryName(String name);
+
+
 }

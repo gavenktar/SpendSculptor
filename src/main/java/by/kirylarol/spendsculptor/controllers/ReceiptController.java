@@ -1,10 +1,10 @@
 package by.kirylarol.spendsculptor.controllers;
 
 
-import by.kirylarol.spendsculptor.Service.*;
+import by.kirylarol.spendsculptor.service.*;
 import by.kirylarol.spendsculptor.dto.ReceiptDTO;
 import by.kirylarol.spendsculptor.entities.*;
-import by.kirylarol.spendsculptor.security.Util;
+import by.kirylarol.spendsculptor.utils.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.web.bind.annotation.*;
@@ -48,6 +48,7 @@ public class ReceiptController {
         List<Position> positionList = receipt.getPositionList();
         receipt.setPositionList(new ArrayList<>());
         BigDecimal totalAfter = receipt.getTotal();
+        receipt.setDate(Util.javaScriptMilisToLocalDate(receiptDTO.getDate()));
         BigDecimal add = totalAfter.subtract(totalBefore);
         goalService.changeStateOfGoals(receipt.getAccount().getAccount(),receipt.getDate(),add);
         receiptService.update(receipt);
@@ -72,5 +73,7 @@ public class ReceiptController {
         }
         return null;
     }
+
+
 
 }

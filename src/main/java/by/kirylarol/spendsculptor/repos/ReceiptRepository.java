@@ -22,4 +22,8 @@ public interface ReceiptRepository extends JpaRepository<Receipt, Integer> {
 
     @Query ("SELECT SUM (e.total) FROM Receipt e WHERE e.account.account = :account_id AND e.date BETWEEN :start AND :end")
     BigDecimal getTotalByAccount (@Param("account_id") Account account_id, @Param("start") LocalDate start, @Param("end") LocalDate end);
+
+
+    @Query("SELECT rec FROM Receipt rec INNER JOIN rec.account au WHERE au.user.id = :user_id")
+    List<Receipt> getReceiptsByUserId(@Param("user_id") int id);
 }

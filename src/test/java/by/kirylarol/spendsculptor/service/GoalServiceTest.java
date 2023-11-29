@@ -1,4 +1,4 @@
-package by.kirylarol.spendsculptor.Service;
+package by.kirylarol.spendsculptor.service;
 
 import by.kirylarol.spendsculptor.entities.*;
 import org.junit.Assert;

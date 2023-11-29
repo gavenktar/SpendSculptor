@@ -1,6 +1,6 @@
 package by.kirylarol.spendsculptor.utils;
 
-import by.kirylarol.spendsculptor.Service.UserService;
+import by.kirylarol.spendsculptor.service.UserService;
 import by.kirylarol.spendsculptor.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

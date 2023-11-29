@@ -1,4 +1,4 @@
-package by.kirylarol.spendsculptor.Service;
+package by.kirylarol.spendsculptor.service;
 
 import by.kirylarol.spendsculptor.entities.Account;
 import by.kirylarol.spendsculptor.entities.Goal;
@@ -59,7 +59,8 @@ public class GoalService {
     public void changeStateOfGoals (Account account, LocalDate date, BigDecimal price){
         List<Goal> activeGoals = takeGoalValidUntilDate(account,date);
         for (var elem : activeGoals){
-            elem.setState( elem.getState().add(price) );
+            BigDecimal state =  elem.getState() != null? elem.getState() : BigDecimal.valueOf(0);
+            elem.setState(state.add(price));
         }
         goalRepository.saveAll(activeGoals);
     }

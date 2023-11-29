@@ -1,4 +1,4 @@
-package by.kirylarol.spendsculptor.Service;
+package by.kirylarol.spendsculptor.service;
 
 import by.kirylarol.spendsculptor.entities.Category;
 import by.kirylarol.spendsculptor.entities.Position;
@@ -59,7 +59,7 @@ public class PositionService {
     public void updateList(List<Position> positionList, Receipt receipt){
         for (Position position : positionList) {
             position.setReceipt(receipt);
-            categoryService.createCategory(position.getCategory());
+            position.setCategory(categoryService.createCategory(position.getCategory()));
             positionRepository.save(position);
         }
     }

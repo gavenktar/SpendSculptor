@@ -9,8 +9,8 @@ import java.time.LocalDate;
 public class GoalDTO {
 
     private String title;
-    private LocalDate dateStart;
-    private LocalDate dateEnd;
+    private long dateStart;
+    private long dateEnd;
     private BigDecimal target;
 
     public String getTitle() {
@@ -21,19 +21,19 @@ public class GoalDTO {
         this.title = title;
     }
 
-    public LocalDate getDateStart() {
+    public long getDateStart() {
         return dateStart;
     }
 
-    public void setDateStart(LocalDate dateStart) {
+    public void setDateStart(long dateStart) {
         this.dateStart = dateStart;
     }
 
-    public LocalDate getDateEnd() {
+    public long getDateEnd() {
         return dateEnd;
     }
 
-    public void setDateEnd(LocalDate dateEnd) {
+    public void setDateEnd(long dateEnd) {
         this.dateEnd = dateEnd;
     }
 

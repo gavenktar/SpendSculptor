@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public interface AccountUserRepository extends JpaRepository<AccountUser, Integer> {
@@ -27,4 +28,12 @@ public interface AccountUserRepository extends JpaRepository<AccountUser, Intege
 
     @Query ("SELECT ua FROM AccountUser ua WHERE ua.account.id = :accountid AND ua.user.id = :userid")
     AccountUser findAccountUserByAccountAndUser(int accountid, int userid);
+
+
+    @Query ("SELECT (au.account.id, au.permission) FROM AccountUser au WHERE au.user.id = :userid")
+    Map<String,String> returnAllAccessLevels (int userid);
+
+
+
+    List<AccountUser> findAccountUsersByUserId(int userid);
 }

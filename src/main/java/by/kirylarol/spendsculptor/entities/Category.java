@@ -50,6 +50,13 @@ public class Category {
         return Objects.equals(categoryName, category.categoryName);
     }
 
+    public Category() {
+    }
+
+    public Category(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
     @JsonIgnore
     public List<Position> getPositions() {
         return positions;

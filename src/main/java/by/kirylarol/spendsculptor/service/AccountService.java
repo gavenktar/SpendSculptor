@@ -1,15 +1,11 @@
-package by.kirylarol.spendsculptor.Service;
+package by.kirylarol.spendsculptor.service;
 
 
 import by.kirylarol.spendsculptor.entities.Account;
-import by.kirylarol.spendsculptor.entities.User;
 import by.kirylarol.spendsculptor.repos.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.math.BigDecimal;
-import java.sql.Date;
 
 @Transactional (readOnly = true)
 @Service

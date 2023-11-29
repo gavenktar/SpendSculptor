@@ -1,4 +1,4 @@
-package by.kirylarol.spendsculptor.Api;
+package by.kirylarol.spendsculptor.API;
 
 import org.springframework.web.multipart.MultipartFile;
 
