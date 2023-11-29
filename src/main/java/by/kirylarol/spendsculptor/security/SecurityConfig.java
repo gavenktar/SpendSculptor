@@ -40,7 +40,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/admin").hasRole("ADMIN")
                         .requestMatchers("/login", "/register", "/error","/").permitAll()
-                        .anyRequest().permitAll()
+                        .anyRequest().authenticated()
                 )
                 .logout(logOut -> logOut
                         .logoutUrl("/logout")

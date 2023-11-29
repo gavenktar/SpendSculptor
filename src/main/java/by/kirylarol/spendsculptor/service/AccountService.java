@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Transactional (readOnly = true)
 @Service
 public class AccountService {
@@ -35,4 +37,7 @@ public class AccountService {
         return accountRepository.findById(account.getId()).orElse(null);
     }
 
+    public List<Account> getAll() {
+        return accountRepository.findAll();
+    }
 }
