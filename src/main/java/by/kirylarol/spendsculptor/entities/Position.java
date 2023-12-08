@@ -1,7 +1,7 @@
-package by.kirylarol.spendsculptor.repos;
+package by.kirylarol.spendsculptor.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import org.springframework.boot.autoconfigure.web.WebProperties;
 
 import java.math.BigDecimal;
 
@@ -32,6 +32,11 @@ public class Position {
         this.name = name;
     }
 
+    public Position(String name, BigDecimal price) {
+        this.name = name;
+        this.price = price;
+    }
+
     @Override
     public String toString() {
         return "Position{" +
@@ -52,14 +57,48 @@ public class Position {
     }
 
     public void setName(String name) {
+        name = name.replaceAll(" [\"0-9].+","");
         this.name = name;
     }
 
-    public BigDecimal price() {
-        return price;
+
+
+    public void setPositionId(int positionId) {
+        this.positionId = positionId;
+    }
+
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+
+    public void setReceipt(Receipt receipt) {
+        this.receipt = receipt;
     }
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public int getPositionId() {
+        return positionId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    @JsonIgnore
+    public Receipt getReceipt() {
+        return receipt;
     }
 }
