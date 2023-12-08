@@ -79,17 +79,17 @@ public class AccountUserService {
 
     @Transactional
     public AccountUser addUser (Account account, User user, Double weight, ACCOUNT_ENUM permission){
-        return getAccountUser(user, weight, permission, account);
+        return addAccountUser(user, weight, permission, account);
     }
 
     @Transactional
     public AccountUser addUser (int accountid, User user, Double weight, ACCOUNT_ENUM permission){
         Account account = accountService.getAccount(accountid);
-        return getAccountUser(user, weight, permission, account);
+        return addAccountUser(user, weight, permission, account);
     }
 
     @NotNull
-    private AccountUser getAccountUser(User user, Double weight, ACCOUNT_ENUM permission, Account account) {
+    private AccountUser addAccountUser(User user, Double weight, ACCOUNT_ENUM permission, Account account) {
         List<AccountUser> accountUserList =  accountUserRepository.findAccountUsersByAccount(account);
         double leftWeight = 1 - weight;
         for (var elem : accountUserList){

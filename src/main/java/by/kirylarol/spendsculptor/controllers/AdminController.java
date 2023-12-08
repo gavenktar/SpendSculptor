@@ -53,9 +53,12 @@ public class AdminController {
 
 
     @DeleteMapping("admin/users/{login}")
-    boolean deleteUser(@PathVariable String login) {
+    boolean deleteUser(@PathVariable String login) throws Exception {
         User user = userService.getUser(login);
         if (user == null) return false;
+        if (user.getLogin().equals(login)){
+            throw new Exception("Вы не можете удалить сами себя");
+        }
         List<AccountUser> accountUserList = accountUserService.getByUser(user.getId());
         accountUserList.forEach(
                 item -> accountUserService.removeUser(item.getAccount(), user)

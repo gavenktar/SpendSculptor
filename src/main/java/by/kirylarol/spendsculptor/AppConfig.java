@@ -21,7 +21,6 @@ public class AppConfig {
 
     private final UserRepository repository;
 
-
     @Bean
     public UserDetailsService userDetailsService() {
         return login ->

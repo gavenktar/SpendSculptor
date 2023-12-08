@@ -34,7 +34,6 @@ public class ApiSenderNanonets implements ApiSender {
         try {
             File convertedFile = File.createTempFile("temp", null);
 
-
             try (InputStream inputStream = multipartFile.getInputStream()) {
                 Files.copy(inputStream, convertedFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
             }

@@ -22,6 +22,7 @@ import static java.lang.Math.abs;
         locations = "classpath:application-integrationtest.properties")
 @Transactional
 public class AccountUserServiceTest {
+
     @Autowired
     AccountUserService accountUserService;
     @Autowired

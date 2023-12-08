@@ -55,8 +55,8 @@ public class GoalService {
         return goalRepository.findGoalsByAccount_IdAndValidAfterAndCreatedBefore(account.getId(), now,now);
     }
 
-
     public void changeStateOfGoals (Account account, LocalDate date, BigDecimal price){
+
         List<Goal> activeGoals = takeGoalValidUntilDate(account,date);
         for (var elem : activeGoals){
             BigDecimal state =  elem.getState() != null? elem.getState() : BigDecimal.valueOf(0);

@@ -24,7 +24,6 @@ public class ReceiptController {
 
     AccountUserService accountUserService;
     PositionService positionService;
-
     Util util;
 
     @Autowired
@@ -50,9 +49,9 @@ public class ReceiptController {
         BigDecimal totalAfter = receipt.getTotal();
         receipt.setDate(Util.javaScriptMilisToLocalDate(receiptDTO.getDate()));
         BigDecimal add = totalAfter.subtract(totalBefore);
-        goalService.changeStateOfGoals(receipt.getAccount().getAccount(),receipt.getDate(),add);
+        goalService.changeStateOfGoals(receipt.getAccount().getAccount(), receipt.getDate(), add);
         receiptService.update(receipt);
-        positionService.updateList(positionList,receipt);
+        positionService.updateList(positionList, receipt);
         return "Успешно";
     }
 
@@ -73,7 +72,6 @@ public class ReceiptController {
         }
         return null;
     }
-
 
 
 }

@@ -33,7 +33,6 @@ public class ReceiptService {
     }
 
 
-    @Transactional
     public void parseReceipt(MultipartFile receiptImage, Receipt receipt) throws Exception {
         String result = apiSender.send(receiptImage);
         List<Position> positionList = new ArrayList<>(jsonStringIntoInternalParser.firstParseStageAfterHttp(result).parse());

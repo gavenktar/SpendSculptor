@@ -51,6 +51,12 @@ public class CategoryController {
         }
         int accountuserid = accountUserService.getByUserAndAccount(accountid, user.getId()).getId();
         List<Category> categoryList = categoryService.findAllByAccountUser(accountuserid);
+        categoryList.forEach(
+                category ->
+                        category.setPositions(category.getPositions().stream().filter(
+                                position -> position.getReceipt().getAccount().getId() == accountuserid
+                        ).toList())
+        );
         List<CategoryWithPositionsDTO> categoryWithPositionsDTOList = new ArrayList<>();
         categoryList.forEach(
                 category -> {

@@ -80,8 +80,8 @@ public class AccountController {
         }
 
         BigDecimal state = receiptService.getAllSpends(account, Util.javaScriptMilisToLocalDate(goalDTO.getDateStart()), Util.javaScriptMilisToLocalDate(goalDTO.getDateEnd()));
-
         Goal goal = new Goal();
+        goal.setState(state);
         goal.setAccount(account);
         toGoal(goal, goalDTO);
         goal.setState(state);
@@ -157,6 +157,18 @@ public class AccountController {
         }
         response.put("message", "Успешно");
         return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping ("account/{id}")
+    public boolean deleteAccount (@PathVariable int id) throws Exception{
+        User user = util.getUser();
+        AccountUser accountUser = accountUserService.getByUserAndAccount(id, user.getId());
+        if (accountUser.getPermission() == ACCOUNT_ENUM.ACCOUNT_CREATOR){
+            accountService.removeAccount(accountUser.getAccount());
+        }else{
+            accountUserService.removeUser(accountUser.getAccount(),accountUser.getUser());
+        }
+        return true;
     }
 
     @PostMapping("account/{id}/adduser")
