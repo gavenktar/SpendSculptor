@@ -1,4 +1,4 @@
-![2023-11-24 18-07-09](https://github.com/gavenktar/SpendSculptor/assets/97042266/070b5df8-9a56-48ae-b1cd-be449d3107e3)![2023-11-24 18-07-09](https://github.com/gavenktar/SpendSculptor/assets/97042266/4e35bdb2-3fda-462f-bd43-25f96f3690fd)# SpendSculptor
+# SpendSculptor
 
 Веб приложение для учета расходов с возможностью распознования по фото
 
